@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 // import 'package:location/location.dart';
 import 'package:ebloodbank/map.dart';
+import 'login.dart';
 
 void main() {
   runApp(MyApp());
@@ -46,6 +47,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 // Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (_)=>Sanam()),(route)=>false);
                 Navigator.of(context).push(MaterialPageRoute(builder: (_)=>MapSample()));
             }),
+            RaisedButton(
+              child: Text("login"),
+              onPressed: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (_)=>LoginPage()));
+              })
             
           ],
         ),

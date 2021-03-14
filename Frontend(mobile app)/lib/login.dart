@@ -1,19 +1,11 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'main.dart';
 import 'signup.dart';
 
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return new MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       routes: <String, WidgetBuilder>{
-//         '/signup': (BuildContext context) => new SignupPage()
-//       },
-//       home: new LoginPage(),
-//     );
-//   }
-// }
 
 class LoginPage extends StatefulWidget {
   @override
@@ -21,6 +13,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool _isLoading = false;
+  var errorMsg;
+  final TextEditingController userController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -59,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: <Widget>[
                     TextField(
+                      controller: userController,
                       decoration: InputDecoration(
                           labelText: 'EMAIL',
                           prefixIcon: Icon(Icons.email, color: Colors.red,),
@@ -71,6 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SizedBox(height: 20.0),
                     TextField(
+                      controller: passwordController,
                       decoration: InputDecoration(
                           labelText: 'PASSWORD',
                           prefixIcon: Icon(Icons.lock, color: Colors.red,),
@@ -106,7 +105,13 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.red,
                         elevation: 7.0,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            print("Login pressed");
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            signIn(userController.text, passwordController.text);
+                          },
                           child: Center(
                             child: Text(
                               'LOGIN',
@@ -119,6 +124,15 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
+
+                    errorMsg == null? Container(): Text(
+                      "$errorMsg",
+                      style: TextStyle(
+                        color: Colors.redAccent,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    
                     SizedBox(height: 20.0),
                     // Container(
                     //   height: 40.0,
@@ -141,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'New to Spotify ?',
+                  'New to E-blood Bank ?',
                   style: TextStyle(fontFamily: 'Montserrat'),
                 ),
                 SizedBox(width: 5.0),
@@ -163,4 +177,33 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ));
   }
+
+  signIn(String user, pass) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map data = {
+      'username': user,
+      'password': pass
+    };
+    var jsonResponse = null;
+    var response = await http.post("http://medimate.skoder.tech/api/user-login", body: data);
+    if(response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      print(jsonResponse);
+      if(jsonResponse != null) {
+        setState(() {
+          _isLoading = false;
+        });
+        sharedPreferences.setString("token", jsonResponse['data']['token']);
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => MyHomePage()), (Route<dynamic> route) => false);
+      }
+    }
+    else {
+      setState(() {
+        _isLoading = false;
+      });
+      errorMsg = response.body;
+      print("The error message is: ${response.body}");
+    }
+  }
 }
+

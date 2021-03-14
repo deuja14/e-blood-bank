@@ -16,15 +16,15 @@ class _SignupPageState extends State<SignupPage> {
             child: Stack(
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.fromLTRB(15.0, 110.0, 0.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(15.0, 60.0, 0.0, 0.0),
                   child: Text(
                     'Signup',
                     style:
-                        TextStyle(fontSize: 80.0, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(260.0, 125.0, 0.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(160.0, 40.0, 0.0, 0.0),
                   child: Text(
                     '.',
                     style: TextStyle(
@@ -37,7 +37,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
           ),
           Container(
-              padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
+              padding: EdgeInsets.only(top: 25.0, left: 20.0, right: 20.0),
               child: Column(
                 children: <Widget>[
                   TextField(
@@ -49,6 +49,28 @@ class _SignupPageState extends State<SignupPage> {
                             color: Colors.grey),
                         // hintText: 'EMAIL',
                         // hintStyle: ,
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red))),
+                  ),
+                  SizedBox(height: 10.0),
+                  TextField(
+                    decoration: InputDecoration(
+                        labelText: 'Blood Group ',
+                        labelStyle: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red))),
+                  ),
+                  SizedBox(height: 10.0),
+                  TextField(
+                    decoration: InputDecoration(
+                        labelText: 'ADDRESS ',
+                        labelStyle: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey),
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.red))),
                   ),
@@ -67,7 +89,7 @@ class _SignupPageState extends State<SignupPage> {
                   SizedBox(height: 10.0),
                   TextField(
                     decoration: InputDecoration(
-                        labelText: 'NICK NAME ',
+                        labelText: 'Contact No ',
                         labelStyle: TextStyle(
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.bold,

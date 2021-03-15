@@ -185,15 +185,17 @@ class _LoginPageState extends State<LoginPage> {
       'password': pass
     };
     var jsonResponse = null;
-    var response = await http.post("http://medimate.skoder.tech/api/user-login", body: data);
-    if(response.statusCode == 200) {
-      jsonResponse = json.decode(response.body);
-      print(jsonResponse);
+    var response = await http.post("http://10.0.2.2:5000/login", 
+    headers: {"Content-type":"application/json"},
+    body: jsonEncode(data));
+    if(response.statusCode == 500) {
+      // jsonResponse = json.decode(response.body);
+      print(response.body);
       if(jsonResponse != null) {
         setState(() {
           _isLoading = false;
         });
-        sharedPreferences.setString("token", jsonResponse['data']['token']);
+        // sharedPreferences.setString("token", jsonResponse['data']['token']);
         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => MyHomePage()), (Route<dynamic> route) => false);
       }
     }

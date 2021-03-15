@@ -5,7 +5,7 @@ app = Flask(__name__)
 app.config["DEBUG"] = True 
 # debugging is made true
 
-#for making the dictionary format of data
+#for making the dictionary format of data from query
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):
@@ -66,6 +66,15 @@ def post():
         cursor = cursor.execute(sql, (First_name, Last_name, Contact_no, Address, Username, Password))
         conn.commit()
         return f"Book with the id: 0 created successfully", 201
+
+@app.route('/login', methods=['POST'])
+def login_pressed():
+    data = request.get_json()
+
+    print(data)
+    return jsonify(data)
+    # test = "sanam"
+    # return f"this is return {test} from the api side",500
 
 if __name__ == '__main__':
     app.run()

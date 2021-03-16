@@ -72,7 +72,7 @@ def login_pressed():
     data = request.get_json()
 
     print(data)
-    return jsonify(data)
+    return jsonify(data),500
     # test = "sanam"
     # return f"this is return {test} from the api side",500
 

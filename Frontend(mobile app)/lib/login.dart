@@ -180,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   signIn(String user, pass) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map data = {
       'username': user,
       'password': pass

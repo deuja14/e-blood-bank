@@ -16,6 +16,8 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController ageController = new TextEditingController();
   final TextEditingController phoneController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
+  final TextEditingController addressController = new TextEditingController();
+  final TextEditingController emailController  = new TextEditingController();
   String chosenBgroup = "Blood Group";
   String chosenGender = "Gender";
   String chosenType = "Both";
@@ -27,24 +29,24 @@ class _SignupPageState extends State<SignupPage> {
 
   
   getLoc() async{
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
+    // bool _serviceEnabled;
+    // PermissionStatus _permissionGranted;
 
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
-    }
+    // _serviceEnabled = await location.serviceEnabled();
+    // if (!_serviceEnabled) {
+    //   _serviceEnabled = await location.requestService();
+    //   if (!_serviceEnabled) {
+    //     return;
+    //   }
+    // }
 
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
+    // _permissionGranted = await location.hasPermission();
+    // if (_permissionGranted == PermissionStatus.denied) {
+    //   _permissionGranted = await location.requestPermission();
+    //   if (_permissionGranted != PermissionStatus.granted) {
+    //     return;
+    //   }
+    // }
 
     _currentPosition = await location.getLocation();
     // location.onLocationChanged.listen((LocationData currentLocation) {
@@ -57,13 +59,11 @@ class _SignupPageState extends State<SignupPage> {
 
 
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   getLoc();
-
-  // }
+  @override
+  void initState() {
+    super.initState();
+    getLoc();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -195,6 +195,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     SizedBox(height: 10.0),
                     TextField(
+                      controller: addressController,
                       decoration: InputDecoration(
                           labelText: 'ADDRESS ',
                           labelStyle: TextStyle(
@@ -204,8 +205,23 @@ class _SignupPageState extends State<SignupPage> {
                           focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.red))),
                     ),
+                    
                     SizedBox(height: 10.0),
                     TextField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                          labelText: 'Email',
+                          labelStyle: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red))),
+                    ),
+
+                    SizedBox(height: 10.0),
+                    TextField(
+                      controller: passwordController,
                       decoration: InputDecoration(
                           labelText: 'PASSWORD ',
                           labelStyle: TextStyle(
@@ -216,17 +232,7 @@ class _SignupPageState extends State<SignupPage> {
                               borderSide: BorderSide(color: Colors.red))),
                       obscureText: true,
                     ),
-                    SizedBox(height: 10.0),
-                    TextField(
-                      decoration: InputDecoration(
-                          labelText: 'Contact No ',
-                          labelStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red))),
-                    ),
+
                     SizedBox(height: 50.0),
                     Text("What type of User are you willing to be?"),
                     DropdownButton(
@@ -257,18 +263,22 @@ class _SignupPageState extends State<SignupPage> {
                           elevation: 7.0,
                           child: GestureDetector(
                             onTap: () {
-                              print("Login pressed");
+                            print("Login pressed");
                             setState(() {
                               _isLoading = true;
                             });
+                            // _isLoading?Icon(Icons.visibility):
+                            // Icon(Icons.visibility_off);
                             signup(
                               nameController.text,
-                               passwordController.text,
                                ageController.text,
                                phoneController.text,
-                               chosenType,
-                               chosenGender,
                                chosenBgroup,
+                               chosenGender,
+                               addressController.text,
+                               emailController.text,
+                               passwordController.text,
+                               chosenType,
                                );
                             },
                             child: Center(
@@ -326,8 +336,7 @@ class _SignupPageState extends State<SignupPage> {
         ));
   }
 
-  signup(String name, password, age, phone, type, gender,bgroup ) async {
-    getLoc();
+  signup(String name, age, phone, bgroup, gender, address, email, password, type ) async {
     // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map data = {
       'name': name,
@@ -338,22 +347,24 @@ class _SignupPageState extends State<SignupPage> {
       'gender':gender,
       'bgroup': bgroup,
       'latitude': _currentPosition.latitude,
-      'longitude': _currentPosition.longitude
+      'longitude': _currentPosition.longitude,
+      'address': address,
+      'email': email
     };
     var jsonResponse = null;
     var response = await http.post("http://10.0.2.2:5000/login", 
     headers: {"Content-type":"application/json"},
     body: jsonEncode(data));
     if(response.statusCode == 500) {
-      // jsonResponse = json.decode(response.body);
+      // // jsonResponse = json.decode(response.body);
       print(response.body);
-      if(jsonResponse != null) {
-        setState(() {
-          _isLoading = false;
-        });
-        // sharedPreferences.setString("token", jsonResponse['data']['token']);
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => MyHomePage()), (Route<dynamic> route) => false);
-      }
+      // if(jsonResponse != null) {
+      //   setState(() {
+      //     _isLoading = false;
+      //   });
+      //   // sharedPreferences.setString("token", jsonResponse['data']['token']);
+      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyHomePage()));
+      // }
     }
     else {
       setState(() {

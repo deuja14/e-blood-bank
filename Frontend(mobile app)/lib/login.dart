@@ -1,9 +1,10 @@
 import 'dart:convert';
 
+import 'package:ebloodbank/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'main.dart';
+import 'main2.dart';
 import 'signup.dart';
 
 
@@ -192,13 +193,13 @@ class _LoginPageState extends State<LoginPage> {
     if(response.statusCode == 500) {
       // jsonResponse = json.decode(response.body);
       print(response.body);
-      if(jsonResponse != null) {
-        setState(() {
-          _isLoading = false;
-        });
-        // sharedPreferences.setString("token", jsonResponse['data']['token']);
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => MyHomePage()), (Route<dynamic> route) => false);
-      }
+      // if(jsonResponse != null) {
+      //   setState(() {
+      //     _isLoading = false;
+      //   });
+      //   // sharedPreferences.setString("token", jsonResponse['data']['token']);
+      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => Dashboard()));
+      // }
     }
     else {
       setState(() {

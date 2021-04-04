@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'package:ebloodbank/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
-import 'main.dart';
+import 'main2.dart';
 
 
 class SignupPage extends StatefulWidget {
@@ -107,6 +108,7 @@ class _SignupPageState extends State<SignupPage> {
                       controller: nameController,
                       decoration: InputDecoration(
                           labelText: 'Name',
+                          prefixIcon: Icon(Icons.perm_identity, color: Colors.red,),
                           labelStyle: TextStyle(
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.bold,
@@ -197,6 +199,7 @@ class _SignupPageState extends State<SignupPage> {
                     TextField(
                       controller: addressController,
                       decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.home, color: Colors.red ),
                           labelText: 'ADDRESS ',
                           labelStyle: TextStyle(
                               fontFamily: 'Montserrat',
@@ -210,6 +213,7 @@ class _SignupPageState extends State<SignupPage> {
                     TextField(
                       controller: emailController,
                       decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.email,color:Colors.red),
                           labelText: 'Email',
                           labelStyle: TextStyle(
                               fontFamily: 'Montserrat',
@@ -223,6 +227,7 @@ class _SignupPageState extends State<SignupPage> {
                     TextField(
                       controller: passwordController,
                       decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock,color:Colors.red),
                           labelText: 'PASSWORD ',
                           labelStyle: TextStyle(
                               fontFamily: 'Montserrat',
@@ -363,7 +368,7 @@ class _SignupPageState extends State<SignupPage> {
       //     _isLoading = false;
       //   });
       //   // sharedPreferences.setString("token", jsonResponse['data']['token']);
-      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => MyHomePage()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => LoginPage()));
       // }
     }
     else {

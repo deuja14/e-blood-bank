@@ -4,9 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
-import 'main2.dart';
-
-
 class SignupPage extends StatefulWidget {
   @override
   _SignupPageState createState() => _SignupPageState();
@@ -30,32 +27,36 @@ class _SignupPageState extends State<SignupPage> {
 
   
   getLoc() async{
-    // bool _serviceEnabled;
-    // PermissionStatus _permissionGranted;
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
 
-    // _serviceEnabled = await location.serviceEnabled();
-    // if (!_serviceEnabled) {
-    //   _serviceEnabled = await location.requestService();
-    //   if (!_serviceEnabled) {
-    //     return;
-    //   }
-    // }
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        print(_serviceEnabled);
+        return;
+      }
+    }
 
-    // _permissionGranted = await location.hasPermission();
-    // if (_permissionGranted == PermissionStatus.denied) {
-    //   _permissionGranted = await location.requestPermission();
-    //   if (_permissionGranted != PermissionStatus.granted) {
-    //     return;
-    //   }
-    // }
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
 
-    _currentPosition = await location.getLocation();
-    // location.onLocationChanged.listen((LocationData currentLocation) {
-    //   print("${currentLocation.longitude} : ${currentLocation.longitude}");
-    //   setState(() {
-    //     _currentPosition = currentLocation;
-    //   });
-    // });
+    print(_serviceEnabled);
+    print(_permissionGranted);
+
+    if(_serviceEnabled == true && _permissionGranted == PermissionStatus.granted){
+      _currentPosition = await location.getLocation();
+      location.onLocationChanged.listen((LocationData currentLocation) {
+        // print("${currentLocation.latitude} : ${currentLocation.longitude}");
+        _currentPosition = currentLocation;
+      });
+    }    
   }
 
 
@@ -357,10 +358,10 @@ class _SignupPageState extends State<SignupPage> {
       'email': email
     };
     var jsonResponse = null;
-    var response = await http.post("http://10.0.2.2:5000/login", 
+    var response = await http.post("http://10.0.2.2:5000/signup", 
     headers: {"Content-type":"application/json"},
     body: jsonEncode(data));
-    if(response.statusCode == 500) {
+    if(response.statusCode == 201) {
       // // jsonResponse = json.decode(response.body);
       print(response.body);
       // if(jsonResponse != null) {

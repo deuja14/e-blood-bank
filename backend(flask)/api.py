@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import sqlite3
 
+
 app = Flask(__name__)
 app.config["DEBUG"] = True 
 # debugging is made true
@@ -16,12 +17,45 @@ def dict_factory(cursor, row):
 def db_connection():
     conn = None
     try:
-        path=r"D:\e-blood-bank\database\bloodbank.db"
+        path=r"D:\E-BloodBank\e-blood-bank\database\bloodbank1.db"
         # r represents raw string in python
         conn=sqlite3.connect(path)
     except sqlite3.error as e:
         print(e)
     return conn
+
+@app.route('/signup', methods=['POST'])
+def post():
+    conn = db_connection()
+    cursor = conn.cursor()
+
+    if request.method == 'POST':
+        data = request.get_json()
+        Name = data['name']
+        Phone = data['phone']
+        Address = data['address']
+        Age = data['age']
+        User_type = data['user_type']
+        Gender = data['gender']
+        Blood_type = data['bgroup']
+        Latitude = data['latitude']
+        Longitude = data['longitude']
+        Password = data['password']
+        Email = data['email']
+        
+        print(data)
+
+        sql = """INSERT INTO users
+                ("Name", "Phone", "Age", "Gender", "Address", "Latitude", "Longitude", "Blood_type", "Email", "User_type", "Password")
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
+
+        cursor = cursor.execute(sql, (Name,Phone,Age,Gender,Address,Latitude,Longitude,Blood_type,Email,User_type,Password))
+        conn.commit()
+        conn.close()
+
+        return f"Book with the id: 0 created successfully", 201
+
+
 
 @app.route('/api/v1', methods=['GET'])
 def login():
@@ -39,33 +73,10 @@ def login():
         # if users is not None:
         #     return jsonify(users)
         return jsonify(userlist)
+    conn.commit()
+    conn.close()
      
-@app.route('/', methods=['POST'])
-def post():
-    conn = db_connection()
-    # conn.row_factory = dict_factory
-    cursor = conn.cursor()
-    if request.method == 'POST':
-        # First_name = request.args.get('a')
-        # Last_name = request.args.get('b')
-        # Contact_no = request.args.get('c')
-        # Address = request.args.get('d')
-        # Username = request.args.get('e')
-        # Password = request.args.get('f')
 
-        data = request.get_json()
-        First_name = data['First_name']
-        Last_name = data['Last_name']
-        Contact_no = data['Contact_no']
-        Address = data['Address']
-        Username = data['Username']
-        Password = data['Password']
-        sql = """INSERT INTO "main"."users"
-                ("First_name", "Last_name", "Contact_no", "Address", "Username", "Password")
-                VALUES (?, ?, ?, ?, ?, ?);"""
-        cursor = cursor.execute(sql, (First_name, Last_name, Contact_no, Address, Username, Password))
-        conn.commit()
-        return f"Book with the id: 0 created successfully", 201
 
 @app.route('/login', methods=['POST'])
 def login_pressed():

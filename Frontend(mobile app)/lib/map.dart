@@ -16,7 +16,7 @@ class MapSampleState extends State<MapSample> {
 
   static final CameraPosition home = CameraPosition(
     target: LatLng(27.6643, 85.4232),
-    zoom: 60,
+    // zoom: 60,
   );
 
   void _onMapCreated(GoogleMapController controller)
@@ -64,5 +64,7 @@ class MapSampleState extends State<MapSample> {
     controller.animateCamera(
       CameraUpdate.newCameraPosition(address)
     );
+    dispose();
   }
+  dispose();
 }

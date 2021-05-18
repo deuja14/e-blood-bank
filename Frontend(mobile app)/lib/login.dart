@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:ebloodbank/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-import 'main2.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'main2.dart';
 import 'signup.dart';
 
 
@@ -16,8 +16,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
   var errorMsg;
-  final TextEditingController userController = new TextEditingController();
-  final TextEditingController passwordController = new TextEditingController();
+  final TextEditingController userController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +186,8 @@ class _LoginPageState extends State<LoginPage> {
       'username': user,
       'password': pass
     };
-    var jsonResponse = null;
+    var jsonResponse;
+    jsonResponse = null;
     var response = await http.post("http://10.0.2.2:5000/login", 
     headers: {"Content-type":"application/json"},
     body: jsonEncode(data));

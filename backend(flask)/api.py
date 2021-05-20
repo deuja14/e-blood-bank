@@ -24,6 +24,10 @@ def db_connection():
         print(e)
     return conn
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return "<h1>404</h1><p>The resource could not be found.</p>", e
+
 @app.route('/signup', methods=['POST'])
 def post():
     conn = db_connection()
@@ -80,10 +84,35 @@ def login():
 
 @app.route('/login', methods=['POST'])
 def login_pressed():
+    conn = db_connection()
+    conn.row_factory = dict_factory
+    cursor = conn.cursor()
     data = request.get_json()
+    
+    uname=data['username']
+    pwd=data['password']
 
-    print(data)
-    return jsonify(data),500
+    sql = """SELECT * FROM users WHERE"""
+    to_filter = []
+    if uname:
+        sql += ' Phone=? AND'
+        to_filter.append(uname)
+    if pwd:
+        sql += ' Password=? AND'
+        to_filter.append(pwd)
+
+    # if not(uname or pwd):
+    #     return page_not_found(404)
+
+    sql = sql[:-4] + ';'
+
+    results = cursor.execute(sql,to_filter).fetchall()
+
+    if not results:
+        return page_not_found(404)
+
+    print(type(results))
+    return jsonify(results),500
     # test = "sanam"
     # return f"this is return {test} from the api side",500
 

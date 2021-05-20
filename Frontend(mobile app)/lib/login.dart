@@ -192,8 +192,10 @@ class _LoginPageState extends State<LoginPage> {
     headers: {"Content-type":"application/json"},
     body: jsonEncode(data));
     if(response.statusCode == 500) {
-      // jsonResponse = json.decode(response.body);
-      print(response.body);
+
+      jsonResponse = json.decode(response.body);
+      print(jsonResponse[0]['Latitude']);
+      // print(response.body);
       // if(jsonResponse != null) {
       //   setState(() {
       //     _isLoading = false;

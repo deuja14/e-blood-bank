@@ -61,22 +61,18 @@ def post():
 
 
 
-@app.route('/api/v1', methods=['GET'])
-def login():
+@app.route('/api/markers', methods=['GET'])
+def markers():
     conn = db_connection()
     conn.row_factory = dict_factory
     cursor = conn.cursor()
 
     if request.method == 'GET':
-        userlist = conn.execute("SELECT * FROM users;").fetchall()
-        # cursor = conn.execute("SELECT * FROM users;")
-        # users = [
-        #     dict(Address=row[0], Client_id=row[1], Contact_no=row[2], First_name=row[3], Last_name=row[4], Password=row[5], Username=row[6])
-        #     for row in cursor.fetchall()
-        # ]
-        # if users is not None:
-        #     return jsonify(users)
-        return jsonify(userlist)
+        userlist = cursor.execute("SELECT * FROM users WHERE User_type='Donor' OR User_type='Both';").fetchall()
+        if not userlist:
+            return page_not_found(404)
+
+        return jsonify(userlist),200
     conn.commit()
     conn.close()
      
@@ -112,7 +108,7 @@ def login_pressed():
         return page_not_found(404)
 
     print(type(results))
-    return jsonify(results),500
+    return jsonify(results),202
     # test = "sanam"
     # return f"this is return {test} from the api side",500
 

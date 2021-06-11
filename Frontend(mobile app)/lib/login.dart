@@ -191,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
     var response = await http.post("http://10.0.2.2:5000/login", 
     headers: {"Content-type":"application/json"},
     body: jsonEncode(data));
-    if(response.statusCode == 500) {
+    if(response.statusCode == 202) {
 
       jsonResponse = json.decode(response.body);
       print(jsonResponse[0]['Latitude']);

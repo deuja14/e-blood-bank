@@ -1,70 +1,187 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:location/location.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+
 class MapSample extends StatefulWidget {
+
   @override
   State<MapSample> createState() => MapSampleState();
 }
 
 class MapSampleState extends State<MapSample> {
+  bool mapToggle;
   Completer<GoogleMapController> _controller = Completer();
-  Location _location = Location();
+  Location location = Location();
   LatLng userPosition;
+  LocationData currentPosition;
+  var donors = [];
+  final Set<Marker> _markers = new Set();
+  
+  // Set<Marker> markers = Dashboard.markers;
 
-  static final CameraPosition home = CameraPosition(
-    target: LatLng(27.6643, 85.4232),
-    // zoom: 60,
-  );
+  getLoc() async{
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        print(_serviceEnabled);
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    print(_serviceEnabled);
+    print(_permissionGranted);
+
+    if(_serviceEnabled == true && _permissionGranted == PermissionStatus.granted){
+      print(mapToggle);
+      currentPosition = await location.getLocation();
+      userPosition = LatLng(currentPosition.latitude, currentPosition.longitude);
+      location.onLocationChanged.listen((LocationData currentLocation) {
+        // print("${currentLocation.latitude} : ${currentLocation.longitude}");
+        currentPosition = currentLocation;
+        userPosition = LatLng(currentPosition.latitude, currentPosition.longitude);
+        // _positionupdate();
+      });
+    }    
+  }
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    fetchdonors();
+    mapToggle=true;
+    // initMarker();
+    getLoc();
+    
+  }
+
+  fetchdonors() async{
+    var jsonResponse;
+    jsonResponse = null;
+    var response = await http.get("http://10.0.2.2:5000/api/markers");
+    if(response.statusCode == 200) {
+
+      jsonResponse = json.decode(response.body);
+      // print(jsonResponse[0]['Latitude']);
+      print(jsonResponse.length);
+      print(mapToggle);
+      for (int i=0;i<jsonResponse.length;i++){
+        // donors.add(jsonResponse[i]);
+        _markers.add(Marker(
+        markerId: MarkerId(jsonResponse[i]['Blood_type']),
+        position: LatLng(jsonResponse[i]['Latitude'],jsonResponse[i]['Longitude']),
+        infoWindow: InfoWindow(
+          title: jsonResponse[i]['Blood_type'],
+          snippet: jsonResponse[i]['Name'],
+        ),
+        icon: BitmapDescriptor.defaultMarker,
+        ));
+      }
+      print(_markers);
+    }
+    else {
+      print("The error message is: ${response.body}");
+    }
+  }
+
+  // initMarker(){
+  //   for (int i=0;i<donors.length;i++){
+  //     _markers.add(Marker(
+  //       markerId: MarkerId(donors[i]['Blood_type']),
+  //       position: LatLng(donors[i]['Latitude'],donors[i]['Longitude']),
+  //       infoWindow: InfoWindow(
+  //         title: donors[i]['Blood_type'],
+  //         snippet: donors[i]['Name'],
+  //       ),
+  //       icon: BitmapDescriptor.defaultMarker,
+  //       ));
+  //   }
+  // }
+
+
+  // final CameraPosition home = CameraPosition(
+  //   target: LatLng(currentPosition.latitude, currentPosition.longitude),
+  //   zoom: 10.0,
+  // );
 
   void _onMapCreated(GoogleMapController controller)
   {
-    _controller.complete(controller);
-    _location.onLocationChanged.listen((LocationData position) {
-      setState(() {
-          userPosition = LatLng(position.latitude, position.longitude);
-        });
-        _positionupdate();
-    });
+    _controller.  complete(controller); 
+    print("just checking in ");
     
   }
   
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: GoogleMap(
-        compassEnabled: true,
-        mapType: MapType.normal,
-        myLocationEnabled: true,
-        scrollGesturesEnabled: true,
-        zoomGesturesEnabled: true,
-        initialCameraPosition: home,
-        // onCameraIdle: _positionupdate,
-        onMapCreated: _onMapCreated,
+      appBar: AppBar(
+        title: Text('E-BloodBank'),
+        backgroundColor: Colors.redAccent,
       ),
-      // floatingActionButton: FloatingActionButton.extended(
-      //   onPressed: _goToTheLake,
-      //   label: Text('To the lake!'),
-      //   icon: Icon(Icons.directions_boat),
-      // ),
+      body: Column(
+        children: <Widget>[
+          Stack(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height-80.0,
+                width: double.infinity,
+                // if maptoggle is true
+                child: mapToggle ?
+                GoogleMap(
+                  compassEnabled: true,
+                  mapType: MapType.normal,
+                  myLocationEnabled: true,
+                  scrollGesturesEnabled: true,
+                  zoomGesturesEnabled: true,
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(27.6,85.4),
+                    zoom: 10,
+                    ),
+                  onMapCreated: _onMapCreated,
+                  markers: _markers,
+                ):
+                // if maptoggle is not true
+                Center(
+                  child:
+                  Text('Loading Please Wait..',
+                  style: TextStyle(
+                    fontSize: 20.0
+                  ),))
+
+              ),
+            ],)
+        ],
+      ),
     );
   }
 
-  Future<void> _positionupdate() async {
-    final GoogleMapController controller = await _controller.future;
-    CameraPosition address;
-    if (userPosition == null){
-      address = home;
-    }
-    else{
-      address = CameraPosition(target: userPosition, zoom: 14.4746);
-    }
-    controller.animateCamera(
-      CameraUpdate.newCameraPosition(address)
-    );
-    dispose();
-  }
-  dispose();
+  // Future<void> _positionupdate() async {
+  //   CameraPosition address = CameraPosition(
+  //     target: userPosition,
+  //     zoom: 9,
+  //   );
+  //   if (address!=null){
+  //     final GoogleMapController controller = await _controller.future;
+  //     controller.moveCamera(CameraUpdate.newCameraPosition(address));
+  //     dispose();
+  //   }
+    
+  // }
 }

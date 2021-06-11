@@ -1,26 +1,31 @@
 import 'package:ebloodbank/map.dart';
 import 'package:flutter/material.dart';
+import 'package:ebloodbank/login.dart';
 
 // ignore: must_be_immutable
 class GridDashboard extends StatelessWidget {
   Items item1 = new Items(
     title: "FIND A DONOR",
-    img: "assets/find-donor.jpg"
+    img: "assets/find-donor.jpg",
+    route: MaterialPageRoute(builder: (_)=>MapSample()),
   );
 
   Items item2 = new Items(
     title: "BLOOD BANK",
-    img: "assets/donors.jpg"
+    img: "assets/donors.jpg",
+    route: MaterialPageRoute(builder: (_)=>LoginPage()),
   );
 
   Items item3 = new Items(
     title: "REQUESTS",
-    img: "assets/request.jpg"
+    img: "assets/request.jpg",
+    route: MaterialPageRoute(builder: (_)=>LoginPage()),
   );
 
   Items item4 = new Items(
     title: "OTHER",
-    img: "assets/other.png"
+    img: "assets/other.png",
+    route: MaterialPageRoute(builder: (_)=>LoginPage()),
   );
 
   @override
@@ -64,7 +69,7 @@ class GridDashboard extends StatelessWidget {
               ),
               onTap: (){
                 print("button tapped");
-                Navigator.of(context).push(MaterialPageRoute(builder: (_)=>MapSample()));
+                Navigator.of(context).push(data.route);
               },
             ),
           );
@@ -77,5 +82,6 @@ class GridDashboard extends StatelessWidget {
 class Items {
   String title;
   String img;
-  Items({this.title, this.img});
+  MaterialPageRoute route;
+  Items({this.title, this.img, this.route,});
 }

@@ -72,6 +72,14 @@ class MapSampleState extends State<MapSample> {
     
   }
 
+  BitmapDescriptor pinLocationIcon;
+
+  void setCustomMapPin() async {
+    pinLocationIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(devicePixelRatio: 2.5),
+      'assets/A+.png');
+   }
+
   fetchdonors() async{
     var jsonResponse;
     jsonResponse = null;
@@ -83,16 +91,21 @@ class MapSampleState extends State<MapSample> {
       print(jsonResponse.length);
       print(mapToggle);
       for (int i=0;i<jsonResponse.length;i++){
-        // donors.add(jsonResponse[i]);
-        _markers.add(Marker(
+        // to add icon
+        setCustomMapPin();
+        var marker=Marker(
         markerId: MarkerId(jsonResponse[i]['Blood_type']),
         position: LatLng(jsonResponse[i]['Latitude'],jsonResponse[i]['Longitude']),
         infoWindow: InfoWindow(
           title: jsonResponse[i]['Blood_type'],
           snippet: jsonResponse[i]['Name'],
         ),
-        icon: BitmapDescriptor.defaultMarker,
-        ));
+        icon:pinLocationIcon,
+        // icon: BitmapDescriptor.fromAssetImage(ImageConfiguration.empty, icon),
+        );
+        setState(() {
+          _markers.add(marker);
+        });
       }
       print(_markers);
     }

@@ -39,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
+            // ignore: deprecated_member_use
             RaisedButton(
               child: Text("sanam map"),
               textColor: Colors.white,
@@ -47,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (_)=>Sanam()),(route)=>false);
                 Navigator.of(context).push(MaterialPageRoute(builder: (_)=>MapSample()));
             }),
+            // ignore: deprecated_member_use
             RaisedButton(
               child: Text("login"),
               onPressed: (){

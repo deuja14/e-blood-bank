@@ -32,8 +32,8 @@ dependencies:
   shared_preferences:
 
 dev_dependencies:
-  google_maps_flutter: ^1.2.0
-  location: ^3.2.4
+  google_maps_flutter: ^2.0.6
+  location: ^4.3.0
   flutter_test:
     sdk: flutter
 
@@ -57,7 +57,6 @@ flutter:
    - assets/find-donor.jpg
    - assets/other.png
    - assets/request.jpg
-   - assets
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

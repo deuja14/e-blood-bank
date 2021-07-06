@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         body: Column(
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -188,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
     };
     var jsonResponse;
     jsonResponse = null;
-    var response = await http.post("http://10.0.2.2:5000/login", 
+    var response = await http.post(Uri.parse("http://10.0.2.2:5000/login"), 
     headers: {"Content-type":"application/json"},
     body: jsonEncode(data));
     if(response.statusCode == 202) {

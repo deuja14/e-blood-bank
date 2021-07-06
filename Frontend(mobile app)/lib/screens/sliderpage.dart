@@ -95,6 +95,7 @@ class _SliderPageState extends State<SliderPage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                // ignore: deprecated_member_use
                 FlatButton(
 
                   child: Text('NEXT',style: TextStyle(fontSize: 20) ,),

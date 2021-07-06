@@ -73,7 +73,7 @@ class _SignupPageState extends State<SignupPage> {
     List _gender=['Gender','Male','Female','others'];
     List _type=['Donor','Needy','Both'];
     return new Scaffold(
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, 
           children: <Widget>[
@@ -358,7 +358,7 @@ class _SignupPageState extends State<SignupPage> {
       'email': email
     };
     var jsonResponse = null;
-    var response = await http.post("http://10.0.2.2:5000/signup", 
+    var response = await http.post(Uri.parse("http://10.0.2.2:5000/signup"), 
     headers: {"Content-type":"application/json"},
     body: jsonEncode(data));
     if(response.statusCode == 201) {

@@ -83,7 +83,7 @@ class MapSampleState extends State<MapSample> {
   fetchdonors() async{
     var jsonResponse;
     jsonResponse = null;
-    var response = await http.get("http://10.0.2.2:5000/api/markers");
+    var response = await http.get(Uri.parse("http://10.0.2.2:5000/api/markers"));
     if(response.statusCode == 200) {
 
       jsonResponse = json.decode(response.body);

@@ -5,8 +5,6 @@ import 'package:ebloodbank/widgets/slidedots.dart';
 import 'package:ebloodbank/widgets/slideitem.dart';
 import 'package:flutter/material.dart';
 
-import 'dashboard.dart';
-
 class SliderPage extends StatefulWidget {
   @override
   _SliderPageState createState() => _SliderPageState();

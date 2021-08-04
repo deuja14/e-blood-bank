@@ -67,10 +67,12 @@ class GridDashboard extends StatelessWidget {
                   ],
                 ),
               ),
-              onTap: (){
-                print("button tapped");
-                Navigator.of(context).push(data.route);
-              },
+              onTap: () => Navigator.of(context).push(data.route),
+              // onTap: (){
+              //   print("button tapped");
+
+              //   () => Navigator.of(context).push(data.route);
+              // },
             ),
           );
           }).toList()

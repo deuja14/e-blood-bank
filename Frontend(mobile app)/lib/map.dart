@@ -100,7 +100,8 @@ class MapSampleState extends State<MapSample> {
           title: jsonResponse[i]['Blood_type'],
           snippet: jsonResponse[i]['Name'],
         ),
-        icon:pinLocationIcon,
+        // icon:pinLocationIcon,
+        icon: BitmapDescriptor.defaultMarker,
         // icon: BitmapDescriptor.fromAssetImage(ImageConfiguration.empty, icon),
         );
         setState(() {

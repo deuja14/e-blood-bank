@@ -1,7 +1,7 @@
+import 'package:Ebloodbank/screens/request.dart';
 import 'package:flutter/material.dart';
-
 import 'map.dart';
-import 'package:ebloodbank/screens/sliderpage.dart';
+import 'package:Ebloodbank/screens/sliderpage.dart';
 import 'login.dart';
 // import 'signup.dart';
 // import 'screens/dashboard.dart';
@@ -21,6 +21,11 @@ Map<String, Function> routes = <String, Function>{
   '/login':() => PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation){
       return LoginPage();
-    })  
+    }),  
+
+    '/request':() => PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation){
+      return Requests();
+    }) 
 };
 

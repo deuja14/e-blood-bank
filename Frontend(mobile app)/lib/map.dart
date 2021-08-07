@@ -147,7 +147,7 @@ class MapSampleState extends State<MapSample> {
     return new Scaffold(
       appBar: AppBar(
         title: Text('E-BloodBank'),
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Colors.red,
       ),
       body: Column(
         children: <Widget>[

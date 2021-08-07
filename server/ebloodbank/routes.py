@@ -13,8 +13,8 @@ db.create_all()
 
 admin_created = User.query.filter_by(role = "ADMIN").first()
 if admin_created is None:
-	admin_password = bcrypt.generate_password_hash("1432117").decode('utf-8')
-	user = User(firstName='Dipesh', lastName='Deuja', email='deujadipesh1407@gmail.com', phoneNumber='9863039154', address='Suryabinayak-12', bloodGroup='O +ve', gender='Male', age='23', password=admin_password, role="ADMIN")
+	admin_password = bcrypt.generate_password_hash("admin").decode('utf-8')
+	user = User(firstName='admin', lastName='admin', email='xyz@gmail.com', phoneNumber='9843304443', address='Suryabinayak-12', bloodGroup='O +ve', gender='Male', age='23', password=admin_password, role="ADMIN")
 	db.session.add(user)
 	db.session.commit()
 

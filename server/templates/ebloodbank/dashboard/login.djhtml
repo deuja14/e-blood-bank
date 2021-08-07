@@ -35,7 +35,7 @@
                         <button type="submit" id="submit" name="submit" class="btn btn-primary btn-block">Login</button>
                     </form>
                     <div class="form-footer">
-                        <span>New Member?</span><a href="/login"> SignUp Now</a>
+                        <span>New Member?</span><a href="/register"> SignUp Now</a>
                     </div>
                 </div>
             </div>

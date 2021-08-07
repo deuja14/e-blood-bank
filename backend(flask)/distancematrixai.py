@@ -1,21 +1,21 @@
 import pandas as pd
 
-# import sqlite3
+import sqlite3
 from itertools import tee
 import requests
 
-# def db_connection():
-#     conn = None
-#     try:
-#         path=r"D:\E-BloodBank\e-blood-bank\database\bloodbank1.db"
-#         # r represents raw string in python
-#         conn=sqlite3.connect(path)
-#     except sqlite3.error as e:
-#         print(e)
-#     return conn
+def db_connection():
+    conn = None
+    try:
+        path=r"D:\E-BloodBank\e-blood-bank\database\bloodbank1.db"
+        # r represents raw string in python
+        conn=sqlite3.connect(path)
+    except sqlite3.error as e:
+        print(e)
+    return conn
 
-# conn = db_connection()
-#     cursor = conn.cursor()
+conn = db_connection()
+    cursor = conn.cursor()
 
 #     if request.method == 'POST':
 #         data = request.get_json()

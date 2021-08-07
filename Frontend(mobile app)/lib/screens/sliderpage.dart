@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:ebloodbank/login.dart';
-import 'package:ebloodbank/model/slide.dart';
-import 'package:ebloodbank/widgets/slidedots.dart';
-import 'package:ebloodbank/widgets/slideitem.dart';
+import 'package:Ebloodbank/login.dart';
+import 'package:Ebloodbank/model/slide.dart';
+import 'package:Ebloodbank/widgets/slidedots.dart';
+import 'package:Ebloodbank/widgets/slideitem.dart';
 import 'package:flutter/material.dart';
 
 class SliderPage extends StatefulWidget {

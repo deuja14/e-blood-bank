@@ -8,7 +8,7 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///D:\\E-BloodBank\\e-blood-bank\\database\\test1.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     
     MAIL_SERVER='smtp.gmail.com'
@@ -20,3 +20,4 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
+

@@ -66,6 +66,7 @@ def markers():
     conn = db_connection()
     conn.row_factory = dict_factory
     cursor = conn.cursor()
+    
 
     if request.method == 'GET':
         userlist = cursor.execute("SELECT * FROM users WHERE User_type='Donor' OR User_type='Both';").fetchall()

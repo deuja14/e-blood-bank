@@ -1,11 +1,10 @@
-from functools import wraps
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from flask_login import login_user, current_user, logout_user, login_required
 import sqlite3
 from ebloodbank import app, db, bcrypt
-from ebloodbank.models import User, Newsletter
-from ebloodbank.forms import RegistrationForm, LoginForm, NewsletterForm, NoticeForm, BloodBankForm, AmbulanceForm
-# from flask_admin import Admin
+from ebloodbank.models import User, MyAdminIndexView, AdminView, Newsletter
+from ebloodbank.forms import RegistrationForm, LoginForm, NewsletterForm
+from flask_admin import Admin
 
 # hashed_password = bcrypt.generate_password_hash("susan").decode('utf-8')
 # user = User(userName="SUSN", firstName="sjdhf", lastName="skjdhf", email="sushansujakhu14@gmail.com", bloodGroup="B+", password=hashed_password, role="ADMIN")
@@ -15,23 +14,13 @@ db.create_all()
 admin_created = User.query.filter_by(role = "ADMIN").first()
 if admin_created is None:
 	admin_password = bcrypt.generate_password_hash("1432117").decode('utf-8')
-	user = User(role="ADMIN", fullName='Dipesh Deuja', email='deujadipesh1407@gmail.com', phoneNumber='9863039154', address='Suryabinayak-12', lat="", lng="", bloodGroup='O +ve', gender='Male', age='23', userType="Both", password=admin_password)
+	user = User(firstName='Dipesh', lastName='Deuja', email='deujadipesh1407@gmail.com', phoneNumber='9863039154', address='Suryabinayak-12', bloodGroup='O +ve', gender='Male', age='23', password=admin_password, role="ADMIN")
 	db.session.add(user)
 	db.session.commit()
 
-# admin = Admin(app, name='Dashboard', index_view = MyAdminIndexView())
-# admin.add_view(AdminView(User, db.session))
-# admin.add_view(AdminView(Newsletter, db.session))
-
-def restricted(access_level):
-    def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            if not current_user.role == access_level:
-                return redirect(url_for('home'))
-            return func(*args, **kwargs)
-        return wrapper
-    return decorator
+admin = Admin(app, name='Dashboard', index_view = MyAdminIndexView())
+admin.add_view(AdminView(User, db.session))
+admin.add_view(AdminView(Newsletter, db.session))
 
 @app.route("/", methods=['GET','POST'])
 # @login_required
@@ -52,7 +41,7 @@ def user_registration():
 	if request.method == 'POST':
 		if form.validate_on_submit():
 			hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-			user = User(fullName=form.fullName.data, email=form.email.data, phoneNumber=form.phoneNumber.data, address=form.address.data, bloodGroup=form.bloodGroup.data, gender=form.gender.data, age=form.age.data, userType=form.userType.data, password=hashed_password)
+			user = User(firstName=form.firstName.data, lastName=form.lastName.data, email=form.email.data, phoneNumber=form.phoneNumber.data, address=form.address.data, bloodGroup=form.bloodGroup.data, gender=form.gender.data, age=form.age.data, password=hashed_password)
 			db.session.add(user)
 			db.session.commit()
 			print('success')
@@ -106,25 +95,10 @@ def user_list():
 		'/ebloodbank/dashboard/user-list.djhtml', user = user
 		)
 
-@app.route("/admin/")
+@app.route("/admin")
 @login_required
-@restricted(access_level="ADMIN")
 def admin_dashboard():
 	user = User.query.all()
 	return render_template(
 		'/ebloodbank/admin/dashboard.djhtml', user = user
-		)
-
-@app.route("/admin/add-notice")
-@login_required
-@restricted(access_level="ADMIN")
-def add_notice():
-	form = NoticeForm()
-	if request.method == 'POST':
-		if form.validate_on_submit():
-			title = Notice(email=form.title.data)
-			db.session.add(email)
-			db.session.commit()
-	return render_template(
-		'/ebloodbank/admin/add-notice.djhtml'
 		)

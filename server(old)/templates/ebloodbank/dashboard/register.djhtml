@@ -26,8 +26,12 @@
                     <form method="POST">
                         {{ form.hidden_tag() }}
                         <div class="form-group">
-                          <label for="fullName">Enter Your Name</label>
-                          <input type="text" class="form-control" id="fullName" name="fullName" aria-describedby="Full Name">
+                          <label for="firstName">Enter Your First Name</label>
+                          <input type="text" class="form-control" id="firstName" name="firstName" aria-describedby="First Name">
+                        </div>
+                        <div class="form-group">
+                          <label for="lastName">Enter Your Last Name</label>
+                          <input type="text" class="form-control" id="lastName" name="lastName" aria-describedby="Last Name">
                         </div>
                         <div class="form-group">
                             <label for="email">Enter Your Email Address</label>
@@ -38,7 +42,7 @@
                             <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" aria-describedby="Phone Number">
                         </div>
                         <div class="form-group">
-                            <label for="address">Enter Your Address</label>
+                            <label for="address">Enter Your Phone Number</label>
                             <input type="text" class="form-control" id="address" name="address" aria-describedby="Address">
                         </div>
                         <div class="form-group">
@@ -67,15 +71,6 @@
                         <div class="form-group">
                             <label for="age">Enter Your Age</label>
                             <input type="text" class="form-control" id="age" name="age" aria-describedby="Age">
-                        </div>
-                        <div class="form-group">
-                            <label for="userType">Are You?</label>
-                            <select class="form-select" id="userType" name="userType" aria-label="User Type">
-                              <option selected>--Select--</option>
-                              <option value="Male">Both</option>
-                              <option value="Female">Donor</option>
-                              <option value="Others">Receiver</option>
-                            </select>
                         </div>
                         <div class="form-group">
                             <label for="password">Enter Your Password</label>

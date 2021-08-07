@@ -121,31 +121,34 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Phone Number</th>
+                            <th>Blood Group</th>
                             <th>Age</th>
-                            <th>Start date</th>
-                            <th>Salary</th>
+                            <th>Address</th>
+                            <th>User Type</th>
                         </tr>
                     </thead>
                     <tbody>
                       {% for item in user %}
                         <tr>
-                            <td>{{item['firstName']}} {{item['lastName']}}</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>2011/04/25</td>
-                            <td>$320,800</td>
+                            <td>{{item['fullName']}}</td>
+                            <td>{{item['email']}}</td>
+                            <td>{{item['phoneNumber']}}</td>
+                            <td>{{item['bloodGroup']}}</td>
+                            <td>{{item['age']}}</td>
+                            <td>{{item['address']}}</td>
+                            <td>{{item['userType']}}</td>
                         </tr>
                       {% endfor %}
                     </tbody>
                     <tfoot>
                         <tr>
                             <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Blood Group</th>
                             <th>Age</th>
-                            <th>Start date</th>
-                            <th>Salary</th>
+                            <th>Address</th>
+                            <th>User Type</th>
                         </tr>
                     </tfoot>
                 </table>

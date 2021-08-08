@@ -17,7 +17,7 @@ class GridDashboard extends StatelessWidget {
   Items item3 = new Items(
     title: "REQUESTS",
     img: "assets/request.jpg",
-    route: '/request',
+    route: '/requests',
   );
 
   Items item4 = new Items(

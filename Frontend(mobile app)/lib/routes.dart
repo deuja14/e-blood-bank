@@ -1,4 +1,6 @@
-import 'package:Ebloodbank/screens/request.dart';
+import 'package:Ebloodbank/screens/donors.dart';
+import 'package:Ebloodbank/screens/feed.dart';
+import 'package:Ebloodbank/screens/settings.dart';
 import 'package:flutter/material.dart';
 import 'map.dart';
 import 'package:Ebloodbank/screens/sliderpage.dart';
@@ -15,12 +17,12 @@ Map<String, Function> routes = <String, Function>{
 
   '/donors': () => PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation){
-      return Requests();
+      return Bloodbank();
     },),
 
   '/settings': () => PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation){
-      return Requests();
+      return Settings();
     },),
 
   '/slider':() => PageRouteBuilder(
@@ -33,9 +35,9 @@ Map<String, Function> routes = <String, Function>{
       return LoginPage();
     }),  
 
-    '/request':() => PageRouteBuilder(
+    '/requests':() => PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation){
-      return Requests();
+      return Feed();
     }) 
 };
 

@@ -60,10 +60,10 @@ class _LoginPageState extends State<LoginPage> {
                     children: <Widget>[
                       TextFormField(
                         controller: userController,
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                             labelText: 'Phone',
-                            prefixIcon: Icon(Icons.email, color: Colors.red,),
+                            prefixIcon: Icon(Icons.phone_android, color: Colors.red,),
                             labelStyle: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.bold,

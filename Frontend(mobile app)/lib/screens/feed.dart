@@ -20,42 +20,43 @@ class _FeedState extends State<Feed> {
         title: Text("Newsfeed"),
       ),
 
-      body: SingleChildScrollView(
-        child: GestureDetector(
-          onTap: (){
-            showdialogbox(context);
-          },
-          child: Container(
+      body: ListView(
+        children: [
+          SizedBox(height: 10,),
+          Container(
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey[200]),
+              color: Colors.red[100],
               shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(10),
             ),
             padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-            height: 310,
+            constraints: BoxConstraints.tightForFinite(),
             child: Column(
               children: [
                 SizedBox(height: 5),
                 Container(
-                  height: 30,
+                  height: 40,
                   width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [Colors.redAccent,Colors.red[200],Colors.redAccent],)
+                  ),
                   child: Center(
                     child: Text(
-                      "Dr. Kareena Bade",
+                      "Request For Blood:",
                       textAlign: TextAlign.center,
                     ),
                   ),
                 ),
 
                 Container(
-                  height: 40,
+                  height: 30,
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [Colors.red,Colors.redAccent],)
-                  ),
                   child: Center(
                     child: Text(
-                      "Request For",
+                      "Abinash Tamang",
                       textAlign: TextAlign.center,
+                      style: TextStyle(letterSpacing: 2),
+                      textScaleFactor: 1.3,
                     ),
                   ),
                 ),
@@ -121,7 +122,7 @@ class _FeedState extends State<Feed> {
                                       children: [
                                         Icon(FontAwesomeIcons.mapMarkerAlt, size: 20,),
                                         SizedBox(width: 10,),
-                                        Text('Dhaka'),
+                                        Text('Charikot, sauraha'),
                                       ],
                                     ),
                                   ),
@@ -133,7 +134,7 @@ class _FeedState extends State<Feed> {
                                       children: [
                                         Icon(FontAwesomeIcons.arrowCircleRight, size: 20,),
                                         SizedBox(width: 10,),
-                                        Text('Dhaka'),
+                                        Text('4 Bags'),
                                       ],
                                     ),
                                   ),
@@ -145,7 +146,7 @@ class _FeedState extends State<Feed> {
                                       children: [
                                         Icon(FontAwesomeIcons.arrowCircleRight, size: 20),
                                         SizedBox(width: 10,),
-                                        Text('Dhaka'),
+                                        Text('Dhaulagiri Hospital,Dolakha'),
                                       ],
                                     ),
                                   ),
@@ -157,7 +158,7 @@ class _FeedState extends State<Feed> {
                                       children: [
                                         Icon(FontAwesomeIcons.phoneAlt,size: 20,),
                                         SizedBox(width: 10,),
-                                        Text('Dhaka'),
+                                        Text('9843655061'),
                                       ],
                                     ),
                                   ),
@@ -196,14 +197,14 @@ class _FeedState extends State<Feed> {
                         child: RichText(
                           text: TextSpan(
                             text: 
-                              'Status Time: ',
+                              'Status Time:',
                                 style: TextStyle(
-                                  color: Colors.grey,
+                                  color: Colors.black,
                                   fontSize: 15,
                                 ), 
                             children: [
                               TextSpan(
-                                text: '',
+                                text: '08/08/2021',
                               ),
                             ],
                           ),
@@ -216,14 +217,14 @@ class _FeedState extends State<Feed> {
                         child: RichText(
                           text: TextSpan(
                             text: 
-                              'Center: ',
+                              'Center:',
                                 style: TextStyle(
-                                  color: Colors.grey,
+                                  color: Colors.black,
                                   fontSize: 15,
                                 ), 
                             children: [
                               TextSpan(
-                                text: '',
+                                text: ' Hospital OPD ward ',
                               ),
                             ],
                           ),
@@ -238,12 +239,12 @@ class _FeedState extends State<Feed> {
                             text: 
                               'Reason: ',
                                 style: TextStyle(
-                                  color: Colors.grey,
+                                  color: Colors.black,
                                   fontSize: 15,
                                 ), 
                             children: [
                               TextSpan(
-                                text: '',
+                                text: 'Need Blood for operation.',
                               ),
                             ],
                           ),
@@ -251,14 +252,257 @@ class _FeedState extends State<Feed> {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
-            ),
+            )
           ),
-        ),
+
+// repeating the block===========================================================================================================================
+
+
+          SizedBox(height: 20,),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.red[100],
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            constraints: BoxConstraints.tightForFinite(),
+            child: Column(
+              children: [
+                SizedBox(height: 5),
+                Container(
+                  height: 40,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [Colors.redAccent,Colors.red[200],Colors.redAccent],)
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Request For Blood:",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+
+                Container(
+                  height: 30,
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(
+                    child: Text(
+                      "Lalita Gosai",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(letterSpacing: 2),
+                      textScaleFactor: 1.3,
+                    ),
+                  ),
+                ),
+
+                Container(
+                  height: 150,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey[200]),
+                    shape: BoxShape.rectangle,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 140,
+                        width: MediaQuery.of(context).size.width-20.0,
+                        decoration: BoxDecoration(
+                          //border: Border.all(color: Colors.grey[500]),
+                          borderRadius: BorderRadius.circular(2),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey[500],
+                              blurRadius: 2.0,
+                            )
+                          ]
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(width: 5,),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey[200]),
+                                shape: BoxShape.rectangle,
+                              ),
+                              height: 130,
+                              width: 40,
+                              child: Center(
+                                child: Text(
+                                  'A+',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              height: 130,
+                              width: MediaQuery.of(context).size.width-65,
+                              child: Stack(
+                                fit: StackFit.loose,
+                                children: [
+                                  Positioned(  
+                                    top: 0,
+                                    left: 10,                     
+                                    child: Row(
+                                      children: [
+                                        Icon(FontAwesomeIcons.mapMarkerAlt, size: 20,),
+                                        SizedBox(width: 10,),
+                                        Text('Bhaktapur, chyamasingh'),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Positioned(
+                                    top: 30,
+                                    left: 10,
+                                    child: Row(
+                                      children: [
+                                        Icon(FontAwesomeIcons.arrowCircleRight, size: 20,),
+                                        SizedBox(width: 10,),
+                                        Text('2 Bags'),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Positioned(
+                                    top: 60,
+                                    left: 10,
+                                    child: Row(
+                                      children: [
+                                        Icon(FontAwesomeIcons.arrowCircleRight, size: 20),
+                                        SizedBox(width: 10,),
+                                        Text('Khwopa Hospital'),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Positioned(
+                                    top: 90,
+                                    left: 10,
+                                    child: Row(
+                                      children: [
+                                        Icon(FontAwesomeIcons.phoneAlt,size: 20,),
+                                        SizedBox(width: 10,),
+                                        Text('9805697861'),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Positioned(
+                                    top: 15,
+                                    left: 250,
+                                    child: 
+                                      Icon(FontAwesomeIcons.edit),                             
+                                  ),
+
+                                  Positioned(
+                                    bottom: 15,
+                                    left: 250,
+                                    child: 
+                                      Icon(FontAwesomeIcons.phone),                             
+                                  ),                                                               
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),              
+                ),
+
+                Container(
+                  height: 70,
+                  width: MediaQuery.of(context).size.width,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 10,
+                        left: 5,
+                        child: RichText(
+                          text: TextSpan(
+                            text: 
+                              'Status Time:',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                ), 
+                            children: [
+                              TextSpan(
+                                text: '07/08/2021',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Positioned(
+                        top: 30,
+                        left: 5,
+                        child: RichText(
+                          text: TextSpan(
+                            text: 
+                              'Center:',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                ), 
+                            children: [
+                              TextSpan(
+                                text: ' Hospital OPD ward ',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Positioned(
+                        top: 50,
+                        left: 5,
+                        child: RichText(
+                          text: TextSpan(
+                            text: 
+                              'Reason: ',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                ), 
+                            children: [
+                              TextSpan(
+                                text: 'Need Blood for operation.',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )
+          ),
+
+
+        ]
       ),
     );
   }
+
+
+//dialog box
 
   showdialogbox(BuildContext context){
     return showDialog(

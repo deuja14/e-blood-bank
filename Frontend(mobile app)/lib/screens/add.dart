@@ -18,7 +18,7 @@ class _addRequestState extends State<addRequest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Request fot Blood',textScaleFactor: 1.1,),
+        title: Text('Request for Blood',textScaleFactor: 1.1,),
         centerTitle: true,
         backgroundColor: Colors.red,        
       ),

@@ -1,10 +1,9 @@
 import 'dart:convert';
-
-import 'package:ebloodbank/screens/dashboard.dart';
+import 'package:Ebloodbank/screens/dashboard.dart';
+import 'package:Ebloodbank/screens/forget_password.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 // import 'package:shared_preferences/shared_preferences.dart';
-// import 'main2.dart';
 import 'signup.dart';
 
 
@@ -15,6 +14,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
+  final formkey = GlobalKey<FormState>();
   var errorMsg;
   final TextEditingController userController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -54,103 +54,128 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Container(
                 padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
-                child: Column(
-                  children: <Widget>[
-                    TextField(
-                      controller: userController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                          labelText: 'EMAIL',
-                          prefixIcon: Icon(Icons.email, color: Colors.red,),
-                          labelStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.redAccent))),
-                    ),
-                    SizedBox(height: 20.0),
-                    TextField(
-                      controller: passwordController,
-                      decoration: InputDecoration(
-                          labelText: 'PASSWORD',
-                          prefixIcon: Icon(Icons.lock, color: Colors.red,),
-                          labelStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.redAccent))),
-                      obscureText: true,
-                    ),
-                    SizedBox(height: 5.0),
-                    Container(
-                      alignment: Alignment(1.0, 0.0),
-                      padding: EdgeInsets.only(top: 15.0, left: 20.0),
-                      child: InkWell(
-                        child: Text(
-                          'Forgot Password',
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Montserrat',
-                              decoration: TextDecoration.underline),
+                child: Form(
+                  key: formkey,
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: userController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                            labelText: 'Phone',
+                            prefixIcon: Icon(Icons.email, color: Colors.red,),
+                            labelStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.redAccent))),
+                        // ignore: missing_return
+                        validator: (value) {
+                          if (value.trim().isEmpty){
+                            return 'Phone number required';
+                          }
+                        },
+
+                      ),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        controller: passwordController,
+                        decoration: InputDecoration(
+                            labelText: 'PASSWORD',
+                            prefixIcon: Icon(Icons.lock, color: Colors.red,),
+                            labelStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.redAccent))),
+                        obscureText: true,
+                        // ignore: missing_return
+                        validator: (value) {
+                          if (value.trim().isEmpty){
+                            return 'password required';
+                          }
+                        },
+                      ),
+                      SizedBox(height: 5.0),
+                      Container(
+                        alignment: Alignment(1.0, 0.0),
+                        padding: EdgeInsets.only(top: 15.0, left: 20.0),
+                        child: InkWell(
+                          onTap: (){
+                            forget();
+                          },
+                          child: Text(
+                            'Forgot Password',
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Montserrat',
+                                decoration: TextDecoration.underline),
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 40.0),
-                    Container(
-                      height: 40.0,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(20.0),
-                        shadowColor: Colors.redAccent,
-                        color: Colors.red,
-                        elevation: 7.0,
-                        child: GestureDetector(
-                          onTap: () {
-                            print("Login pressed");
-                            setState(() {
-                              _isLoading = true;
-                            });
-                            signIn(userController.text, passwordController.text);
-                          },
-                          child: Center(
-                            child: Text(
-                              'LOGIN',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Montserrat'),
+                      SizedBox(height: 40.0),
+                      Container(
+                        height: 40.0,
+                        child: Material(
+                          borderRadius: BorderRadius.circular(20.0),
+                          shadowColor: Colors.redAccent,
+                          color: Colors.red,
+                          elevation: 7.0,
+                          child: GestureDetector(
+                            onTap: () {
+                              print("Login pressed");
+                              if(formkey.currentState.validate()){
+                                setState(() {
+                                _isLoading = true;
+                                });
+                                signIn(userController.text, passwordController.text);
+                              }
+                            },
+                            child: Center(
+                              child: Text(
+                                'LOGIN',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Montserrat'),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
 
-                    errorMsg == null? Container(): Text(
-                      "$errorMsg",
-                      style: TextStyle(
-                        color: Colors.redAccent,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    
-                    SizedBox(height: 20.0),
-                    // Container(
-                    //   height: 40.0,
-                    //   color: Colors.transparent,
-                    //   child: Container(
-                    //     decoration: BoxDecoration(
-                    //         border: Border.all(
-                    //             color: Colors.black,
-                    //             style: BorderStyle.solid,
-                    //             width: 1.0),
-                    //         color: Colors.transparent,
-                    //         borderRadius: BorderRadius.circular(20.0)),
+                      SizedBox(height:10),
 
-                    //   ),
-                    // )
-                  ],
+                      errorMsg == null? Container(): 
+                        Container(
+                          width: 300,
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
+                            color: Colors.redAccent,
+                            ),
+                          child: Text('Invalid Password or Phone Number',style: TextStyle(color: Colors.white, letterSpacing: 1.5),textAlign: TextAlign.center,)
+                        ),
+                        
+                      
+                      SizedBox(height: 20.0),
+                      // Container(
+                      //   height: 40.0,
+                      //   color: Colors.transparent,
+                      //   child: Container(
+                      //     decoration: BoxDecoration(
+                      //         border: Border.all(
+                      //             color: Colors.black,
+                      //             style: BorderStyle.solid,
+                      //             width: 1.0),
+                      //         color: Colors.transparent,
+                      //         borderRadius: BorderRadius.circular(20.0)),
+
+                      //   ),
+                      // )
+                    ],
+                  ),
                 )),
             SizedBox(height: 15.0),
             Row(
@@ -180,6 +205,9 @@ class _LoginPageState extends State<LoginPage> {
         ));
   }
 
+  forget(){
+    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ForgotPassword()));
+  }
   signIn(String user, pass) async {
     // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map data = {
@@ -207,6 +235,8 @@ class _LoginPageState extends State<LoginPage> {
     else {
       setState(() {
         _isLoading = false;
+        userController.clear();
+        passwordController.clear();
       });
       errorMsg = response.body;
       print("The error message is: ${response.body}");

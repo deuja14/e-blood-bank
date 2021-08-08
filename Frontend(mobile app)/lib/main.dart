@@ -1,6 +1,5 @@
-// import 'package:ebloodbank/screens/dashboard.dart';
 import 'package:flutter/material.dart';
-import 'package:ebloodbank/screens/sliderpage.dart';
+import 'package:Ebloodbank/screens/sliderpage.dart';
 import 'routes.dart';
 
 void main() {
@@ -37,4 +36,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

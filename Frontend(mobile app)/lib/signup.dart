@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:ebloodbank/login.dart';
+import 'package:Ebloodbank/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
@@ -16,6 +16,7 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController passwordController = new TextEditingController();
   final TextEditingController addressController = new TextEditingController();
   final TextEditingController emailController  = new TextEditingController();
+  final formkey = GlobalKey<FormState>();
   String chosenBgroup = "Blood Group";
   String chosenGender = "Gender";
   String chosenType = "Both";
@@ -101,242 +102,283 @@ class _SignupPageState extends State<SignupPage> {
                 ],
               ),
             ),
-            Container(
-                padding: EdgeInsets.only(top: 25.0, left: 20.0, right: 20.0),
-                child: Column(
-                  children: <Widget>[
-                    TextField(
-                      controller: nameController,
-                      decoration: InputDecoration(
-                          labelText: 'Name',
-                          prefixIcon: Icon(Icons.perm_identity, color: Colors.red,),
-                          labelStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          // hintText: 'EMAIL',
-                          // hintStyle: ,
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red))),
-                    ),
-                    SizedBox(height: 10.0),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: TextField(
-                            controller: ageController,
-                            decoration: InputDecoration(
-                                labelText: 'Age ',
-                                labelStyle: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey),
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red))),
-                          ),
-                        ),
-                        Expanded(
-                          child: TextField(
-                            controller: phoneController,
-                            decoration: InputDecoration(
-                                labelText: 'Contact:  ',
-                                prefixIcon: Icon(Icons.phone, color: Colors.red,),
-                                labelStyle: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey),
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red))),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.0),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                            child: DropdownButton(
-                            hint: Text('Blood Group'),
-                            icon: Icon(Icons.arrow_drop_down),
-                            iconSize: 30,
-                            isExpanded: true,
-                            value: chosenBgroup,
-                            onChanged: (newValue){
-                              setState(() {
-                                chosenBgroup = newValue;
-                              });
-                            },
-                            items: _bloodgroup.map((valueItem){
-                              return DropdownMenuItem(
-                                value: valueItem,
-                                child: Text(valueItem),
-                              );
-                            }).toList(),      
-                          ),
-                        ),
-                        Expanded(
-                            child: DropdownButton(
-                            hint: Text('gender'),
-                            icon: Icon(Icons.arrow_drop_down),
-                            iconSize: 30,
-                            isExpanded: true,
-                            value: chosenGender,
-                            onChanged: (newValue){
-                              setState(() {
-                                chosenGender = newValue;
-                              });
-                            },
-                            items: _gender.map((valueItem){
-                              return DropdownMenuItem(
-                                value: valueItem,
-                                child: Text(valueItem),
-                              );
-                            }).toList(),      
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.0),
-                    TextField(
-                      controller: addressController,
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.home, color: Colors.red ),
-                          labelText: 'ADDRESS ',
-                          labelStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red))),
-                    ),
-                    
-                    SizedBox(height: 10.0),
-                    TextField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.email,color:Colors.red),
-                          labelText: 'Email',
-                          labelStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red))),
-                    ),
-
-                    SizedBox(height: 10.0),
-                    TextField(
-                      controller: passwordController,
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.lock,color:Colors.red),
-                          labelText: 'PASSWORD ',
-                          labelStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red))),
-                      obscureText: true,
-                    ),
-
-                    SizedBox(height: 50.0),
-                    Text("What type of User are you willing to be?"),
-                    DropdownButton(
-                      hint: Text('User Type'),
-                      icon: Icon(Icons.arrow_drop_down),
-                      iconSize: 30,
-                      isExpanded: true,
-                      value: chosenType,
-                      onChanged: (newValue){
-                        setState(() {
-                          chosenType = newValue;
-                        });
-                      },
-                      items: _type.map((valueItem){
-                        return DropdownMenuItem(
-                          value: valueItem,
-                          child: Text(valueItem),
-                        );
-                      }).toList(),      
-                    ),
-                    SizedBox(height: 50.0),
-                    Container(
-                        height: 40.0,
-                        child: Material(
-                          borderRadius: BorderRadius.circular(20.0),
-                          shadowColor: Colors.redAccent,
-                          color: Colors.red,
-                          elevation: 7.0,
-                          child: GestureDetector(
-                            onTap: () {
-                            print("Login pressed");
-                            setState(() {
-                              _isLoading = true;
-                            });
-                            // _isLoading?Icon(Icons.visibility):
-                            // Icon(Icons.visibility_off);
-                            signup(
-                              nameController.text,
-                               ageController.text,
-                               phoneController.text,
-                               chosenBgroup,
-                               chosenGender,
-                               addressController.text,
-                               emailController.text,
-                               passwordController.text,
-                               chosenType,
-                               );
-                            },
-                            child: Center(
-                              child: Text(
-                                'SIGNUP',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Montserrat'),
-                              ),
+            Form(
+              key: formkey,
+              child: Container(
+                  padding: EdgeInsets.only(top: 25.0, left: 20.0, right: 20.0),
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: nameController,
+                        // ignore: missing_return
+                        validator: (value) {
+                          if (value.trim().isEmpty){
+                            return 'Fullname required';
+                          }
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Name',
+                            prefixIcon: Icon(Icons.perm_identity, color: Colors.red,),
+                            labelStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
+                            // hintText: 'EMAIL',
+                            // hintStyle: ,
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red))),
+                      ),
+                      SizedBox(height: 10.0),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: TextFormField(
+                              // ignore: missing_return
+                              validator: (value) {
+                                if (value.trim().isEmpty){
+                                  return 'Age required';
+                                }
+                              },
+                              controller: ageController,
+                              decoration: InputDecoration(
+                                  labelText: 'Age ',
+                                  labelStyle: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey),
+                                  focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red))),
                             ),
                           ),
-                        )
+                          Expanded(
+                            child: TextFormField(
+                              controller: phoneController,
+                              // ignore: missing_return
+                              validator: (value) {
+                                if (value.trim().isEmpty){
+                                  return 'Phone number required';
+                                }
+                              },
+                              decoration: InputDecoration(
+                                  labelText: 'Contact:  ',
+                                  prefixIcon: Icon(Icons.phone, color: Colors.red,),
+                                  labelStyle: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey),
+                                  focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.red))),
+                            ),
+                          ),
+                        ],
                       ),
-                    errorMsg == null? Container(): Text(
-                      "$errorMsg",
-                      style: TextStyle(
-                        color: Colors.redAccent,
-                        fontWeight: FontWeight.bold,
+                      SizedBox(height: 10.0),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                              child: DropdownButton(
+                              hint: Text('Blood Group'),
+                              icon: Icon(Icons.arrow_drop_down),
+                              iconSize: 30,
+                              isExpanded: true,
+                              value: chosenBgroup,
+                              onChanged: (newValue){
+                                setState(() {
+                                  chosenBgroup = newValue;
+                                });
+                              },
+                              items: _bloodgroup.map((valueItem){
+                                return DropdownMenuItem(
+                                  value: valueItem,
+                                  child: Text(valueItem),
+                                );
+                              }).toList(),      
+                            ),
+                          ),
+                          Expanded(
+                              child: DropdownButton(
+                              hint: Text('gender'),
+                              icon: Icon(Icons.arrow_drop_down),
+                              iconSize: 30,
+                              isExpanded: true,
+                              value: chosenGender,
+                              onChanged: (newValue){
+                                setState(() {
+                                  chosenGender = newValue;
+                                });
+                              },
+                              items: _gender.map((valueItem){
+                                return DropdownMenuItem(
+                                  value: valueItem,
+                                  child: Text(valueItem),
+                                );
+                              }).toList(),      
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Container(
-                      height: 40.0,
-                      color: Colors.transparent,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.black,
-                                style: BorderStyle.solid,
-                                width: 1.0),
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(20.0)),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: 
-                          
-                              Center(
-                                child: Text('Go Back',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Montserrat')),
+                      SizedBox(height: 10.0),
+                      TextFormField(
+                        controller: addressController,
+                        // ignore: missing_return
+                        validator: (value) {
+                          if (value.trim().isEmpty){
+                            return 'Address required';
+                          }
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.home, color: Colors.red ),
+                            labelText: 'ADDRESS ',
+                            labelStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red))),
+                      ),
+                      
+                      SizedBox(height: 10.0),
+                      TextFormField(
+                        controller: emailController,
+                        // ignore: missing_return
+                        validator: (value) {
+                          if (value.trim().isEmpty){
+                            return 'Email required';
+                          }
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.email,color:Colors.red),
+                            labelText: 'Email',
+                            labelStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red))),
+                      ),
+
+                      SizedBox(height: 10.0),
+                      TextFormField(
+                        controller: passwordController,
+                        // ignore: missing_return
+                        validator: (value) {
+                          if (value.trim().isEmpty){
+                            return 'Password required';
+                          }
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.lock,color:Colors.red),
+                            labelText: 'PASSWORD ',
+                            labelStyle: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red))),
+                        obscureText: true,
+                      ),
+
+                      SizedBox(height: 50.0),
+                      Text("What type of User are you willing to be?"),
+                      DropdownButton(
+                        hint: Text('User Type'),
+                        icon: Icon(Icons.arrow_drop_down),
+                        iconSize: 30,
+                        isExpanded: true,
+                        value: chosenType,
+                        onChanged: (newValue){
+                          setState(() {
+                            chosenType = newValue;
+                          });
+                        },
+                        items: _type.map((valueItem){
+                          return DropdownMenuItem(
+                            value: valueItem,
+                            child: Text(valueItem),
+                          );
+                        }).toList(),      
+                      ),
+                      SizedBox(height: 50.0),
+                      Container(
+                          height: 40.0,
+                          child: Material(
+                            borderRadius: BorderRadius.circular(20.0),
+                            shadowColor: Colors.redAccent,
+                            color: Colors.red,
+                            elevation: 7.0,
+                            child: GestureDetector(
+                              onTap: () {
+                                print("Login pressed");
+                                if(formkey.currentState.validate()){
+                                  setState(() {
+                                    _isLoading = true;
+                                  });
+                                  // _isLoading?Icon(Icons.visibility):
+                                  // Icon(Icons.visibility_off);
+                                  signup(
+                                    nameController.text,
+                                    ageController.text,
+                                    phoneController.text,
+                                    chosenBgroup,
+                                    chosenGender,
+                                    addressController.text,
+                                    emailController.text,
+                                    passwordController.text,
+                                    chosenType,
+                                  );
+                                }
+                              },
+                              child: Center(
+                                child: Text(
+                                  'SIGNUP',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Montserrat'),
+                                ),
                               ),
-                          
-                          
+                            ),
+                          )
+                        ),
+                      errorMsg == null? Container(): Text(
+                        "$errorMsg",
+                        style: TextStyle(
+                          color: Colors.redAccent,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                  ],
-                )),
+                      SizedBox(height: 20.0),
+                      Container(
+                        height: 40.0,
+                        color: Colors.transparent,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.black,
+                                  style: BorderStyle.solid,
+                                  width: 1.0),
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(20.0)),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: 
+                            
+                                Center(
+                                  child: Text('Go Back',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Montserrat')),
+                                ),
+                            
+                            
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
 
           ]),
         ));

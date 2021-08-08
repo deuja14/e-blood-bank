@@ -11,19 +11,19 @@ class GridDashboard extends StatelessWidget {
   Items item2 = new Items(
     title: "BLOOD BANK",
     img: "assets/donors.jpg",
-    route: '/slider',
+    route: '/donors',
   );
 
   Items item3 = new Items(
     title: "REQUESTS",
     img: "assets/request.jpg",
-    route: '/slider',
+    route: '/request',
   );
 
   Items item4 = new Items(
     title: "OTHER",
     img: "assets/other.png",
-    route: '/login',
+    route: '/settings',
   );
 
   @override

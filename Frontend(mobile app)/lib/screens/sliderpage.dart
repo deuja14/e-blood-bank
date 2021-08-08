@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:ebloodbank/login.dart';
-import 'package:ebloodbank/model/slide.dart';
-import 'package:ebloodbank/widgets/slidedots.dart';
-import 'package:ebloodbank/widgets/slideitem.dart';
+import 'package:Ebloodbank/login.dart';
+import 'package:Ebloodbank/model/slide.dart';
+import 'package:Ebloodbank/widgets/slidedots.dart';
+import 'package:Ebloodbank/widgets/slideitem.dart';
 import 'package:flutter/material.dart';
 
 class SliderPage extends StatefulWidget {
@@ -19,7 +19,7 @@ class _SliderPageState extends State<SliderPage> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(seconds: 5), (Timer timer){
+    Timer.periodic(Duration(seconds: 4), (Timer timer){
       if(_currentPage < 2){
         _currentPage++;
       }

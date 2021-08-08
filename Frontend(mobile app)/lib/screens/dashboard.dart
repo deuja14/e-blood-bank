@@ -1,7 +1,12 @@
-import 'package:ebloodbank/screens/appbar.dart';
+// import 'package:Ebloodbank/screens/appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:Ebloodbank/screens/add.dart';
+import 'package:Ebloodbank/screens/homepage.dart';
+import 'package:Ebloodbank/screens/notifications.dart';
+import 'package:Ebloodbank/screens/profile.dart';
+import 'package:Ebloodbank/screens/searchbyblood.dart';
 
-import 'griddashboard.dart';
+// import 'griddashboard.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -11,29 +16,31 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
 
   int _currentIndex = 0;
+  final List<Widget> bbitems = [
+    HomePage(),
+    SearchByBlood(),
+    addRequest(),
+    Notifications(),
+    DonorProfile(),
+  ];
+
+  void onTappedBar(int index){
+    setState(() {
+      _currentIndex = index;
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        
-        preferredSize: Size.fromHeight(200),
-        child: ClipPath(clipper: CustomAppBar(),
-          child: 
-            Container(color: Colors.red, child: Center(child: 
-              Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-                Text("GIVE THE GIFT OF LIFE", style: TextStyle(fontSize: 20, color: Colors.white,),),
-                Text("DONATE BLOOD", style: TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold,),),
-              ],)),   
-            ),
-        ),
-      ),
 
-      body: Column(
-        children: <Widget>[
-          GridDashboard()
-        ],
-                  
-      ),
+      // body: Column(
+      //   children: <Widget>[
+      //     GridDashboard()
+      //   ],
+      // ),
+
+      body: bbitems[_currentIndex],
 
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -43,7 +50,7 @@ class _DashboardState extends State<Dashboard> {
           BottomNavigationBarItem(
             icon: Icon(Icons.more),
             // ignore: deprecated_member_use
-            title: Text('More'),
+            title: Text('Home'),
             backgroundColor: Colors.grey,
           ),
 
@@ -62,24 +69,22 @@ class _DashboardState extends State<Dashboard> {
           ),
 
           BottomNavigationBarItem(
+            icon: Icon(Icons.notifications_outlined),
+            // ignore: deprecated_member_use
+            title: Text('Notification'),
+            backgroundColor: Colors.grey,
+          ),
+
+          BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
             // ignore: deprecated_member_use
             title: Text('Profile'),
             backgroundColor: Colors.grey,
           ),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_outlined),
-            // ignore: deprecated_member_use
-            title: Text('Notification'),
-            backgroundColor: Colors.grey,
-          ),
+          
         ],
-        onTap: (index){
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        onTap: onTappedBar,
       ),
     );
   }

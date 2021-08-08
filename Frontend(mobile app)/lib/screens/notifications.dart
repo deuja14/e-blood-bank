@@ -17,13 +17,8 @@ class _NotificationsState extends State<Notifications> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          // iconTheme: IconThemeData(color: Colors.green),
           centerTitle: true,
-          title: Text(
-            'Notifications',
-            style:
-            TextStyle(fontFamily: 'Poppins-regular', color: Colors.white),
-          ),
+          title: Text('Notifications',textScaleFactor:1.2),
           backgroundColor: Colors.red,
         ),
 

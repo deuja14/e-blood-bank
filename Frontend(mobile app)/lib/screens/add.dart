@@ -17,8 +17,10 @@ class _addRequestState extends State<addRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Center(child: Text("Request for blood", style: TextStyle(color: Colors.white, ),)),
-        backgroundColor: Colors.red,
+      appBar: AppBar(
+        title: Text('Request fot Blood',textScaleFactor: 1.1,),
+        centerTitle: true,
+        backgroundColor: Colors.red,        
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),

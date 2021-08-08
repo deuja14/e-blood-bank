@@ -19,7 +19,7 @@ class _SliderPageState extends State<SliderPage> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(seconds: 5), (Timer timer){
+    Timer.periodic(Duration(seconds: 4), (Timer timer){
       if(_currentPage < 2){
         _currentPage++;
       }

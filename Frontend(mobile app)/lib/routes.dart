@@ -13,6 +13,16 @@ Map<String, Function> routes = <String, Function>{
       return MapSample();
     },),
 
+  '/donors': () => PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation){
+      return Requests();
+    },),
+
+  '/settings': () => PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation){
+      return Requests();
+    },),
+
   '/slider':() => PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation){
       return SliderPage();

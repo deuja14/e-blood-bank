@@ -15,7 +15,6 @@ class SearchByBlood extends StatefulWidget {
 
 class _SearchByBloodState extends State<SearchByBlood> {
   bool opened = false;
-  List _province = ['Province No. 1','Province No. 2','Bagmati Province','Gandaki Province','Lumbini Province','Karnali Province','Sudurpaschim Province'];
   String valuechoose;
 
   @override
@@ -24,33 +23,7 @@ class _SearchByBloodState extends State<SearchByBlood> {
       appBar: AppBar(
         title: Text('Donors Search',textScaleFactor: 1.1,),
         centerTitle: true,
-        backgroundColor: Colors.red,
-        // title: Center(
-        //   child: DropdownButton(hint: Text('Select your Province'),
-        //     icon: Icon(Icons.arrow_drop_down),
-        //     iconSize: 30,
-        //     isExpanded: true,
-        //     value: valuechoose,
-        //     onChanged: (newValue){
-        //       setState(() {
-        //         valuechoose = newValue;
-        //       });
-        //     },
-        //     items: _province.map((valueItem){
-        //       return DropdownMenuItem(
-        //         value: valueItem,
-        //         child: Text(valueItem),
-        //       );
-        //     }).toList(),           
-        //   ),
-        // ),
-        // actions: <Widget>[
-        //   IconButton(icon: Icon(Icons.search),
-        //     onPressed: (){},
-        //     color: Colors.white,
-        //   )
-        // ],
-        // backgroundColor: Colors.red,        
+        backgroundColor: Colors.red,       
       ),
 
       body: Stack(

@@ -119,46 +119,45 @@
       <div class="row">
         <div class="col-lg-8">
           <div class="block">
-              <div class="profile-card">
-                <div class="profile-card-header d-flex justify-content-between">
-                  <h3>General Information</h3>
-                  <h5>User Id: <span># {{current_user.userId}}</span></h5>
-                </div>
-                <hr>
-                <div class="profile-information">
-                  <h4>First Name: <span>{{current_user.firstName}}</span></h4>
-                  <h4>Last Name: <span>{{current_user.lastName}}</span></h4>
-                  <h4>Blood Group: <span>{{current_user.bloodGroup}}</span></h4>
-                  <h4>Gender: <span>{{current_user.gender}}</span></h4>
-                  <h4>Age: <span>{{current_user.age}} Years Old</span></h4>
-                </div>
-              </div>
+            <div class="form-group">
+              <label>Full Name</label>
+              <input class="form-control form-control-sm" type="text" placeholder="Enter Your Full Name" aria-label="Enter Your Full Name Here">
+            </div>
+            <div class="form-group">
+              <label>Name of the Institute</label>
+              <input class="form-control form-control-sm" type="text" placeholder="Enter Your Institute Name" aria-label="Enter Your Institute Name Here">
+            </div>
           </div>
           <div class="block">
-              <div class="profile-card">
-                <h3>Contact Information</h3>
-                <hr>
-                <div class="profile-information">
-                  <h4>Email: <span>{{current_user.email}}</span></h4>
-                  <h4>Phone Number: <span>(+977) {{current_user.phoneNumber}}</span></h4>
-                </div>
-              </div>
+            <div class="form-group">
+              <label>Name of the Institute</label>
+              <input class="form-control form-control-sm" type="text" placeholder="Enter Your Institute Name" aria-label="Enter Your Institute Name Here">
+            </div>
+            <div class="form-group">
+              <label>Name of the Institute</label>
+              <input class="form-control form-control-sm" type="text" placeholder="Enter Your Institute Name" aria-label="Enter Your Institute Name Here">
+            </div>
           </div>
           <div class="block">
-              <div class="profile-card">
-                <h3>Address Information</h3>
-                <hr>
-                <div class="profile-information">
-                  <h4>Address: <span>{{current_user.address}}</span></h4>
-                </div>
-              </div>
+            <div class="form-group">
+              <label>Name of the Institute</label>
+              <input class="form-control form-control-sm" type="text" placeholder="Enter Your Institute Name" aria-label="Enter Your Institute Name Here">
+            </div>
+            <div class="form-group">
+              <label>Name of the Institute</label>
+              <input class="form-control form-control-sm" type="text" placeholder="Enter Your Institute Name" aria-label="Enter Your Institute Name Here">
+            </div>
           </div>
         </div>
         <div class="col-lg-4">
           <div class="block">
-            <div class="display-banner">
-              <img src="/static/img/dashboard/blooddonation.jpg">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+              <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
             </div>
+          </div>
+          <div class="block">
+            
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 <!doctype html>
 
     {% set name_short = "E-Blood Bank" %}
-    {% set pageTitle = "Profile" %}
+    {% set pageTitle = "Dashboard" %}
 
     <html lang="en">
     <head>
@@ -59,12 +59,12 @@
                 </a>
             </li>
             <li class="nav-header">
-              <span class="nav-header-label">Users</span>
+              <span class="nav-header-label">My Account</span>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="/dashboard/profile">
                 <i class='bx bx-user'></i>
-                <span class="nav-link-label">All Users</span>
+                <span class="nav-link-label">Profile</span>
             </a>
         </li>
         <li class="nav-item">
@@ -102,6 +102,15 @@
 </div>
 </sidebar>
 <main>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class=flashes>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
   <div class="main-content">
     <div class="container-fluid">
       <div class="page-header-block">
@@ -117,48 +126,72 @@
         </div>
       </div>
       <div class="row">
+        <div class="col-lg-12">
+          <div class="current-user-id">
+            <h3># {{current_user.userId}}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="block">
+                <div class="current-user">
+                  <h2>Hello, {{current_user.firstName}}</h2>
+                </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="block">
+                  <div id="mapid"></div>
+              </div>
+          </div>
+      </div>
+
+      <div class="row">
         <div class="col-lg-8">
           <div class="block">
-              <div class="profile-card">
-                <div class="profile-card-header d-flex justify-content-between">
-                  <h3>General Information</h3>
-                  <h5>User Id: <span># {{current_user.userId}}</span></h5>
-                </div>
-                <hr>
-                <div class="profile-information">
-                  <h4>First Name: <span>{{current_user.firstName}}</span></h4>
-                  <h4>Last Name: <span>{{current_user.lastName}}</span></h4>
-                  <h4>Blood Group: <span>{{current_user.bloodGroup}}</span></h4>
-                  <h4>Gender: <span>{{current_user.gender}}</span></h4>
-                  <h4>Age: <span>{{current_user.age}} Years Old</span></h4>
-                </div>
-              </div>
+            <div class="form-group">
+              <label>Full Name</label>
+              <input class="form-control form-control-sm" type="text" placeholder="Enter Your Full Name" aria-label="Enter Your Full Name Here">
+            </div>
+            <div class="form-group">
+              <label>Name of the Institute</label>
+              <input class="form-control form-control-sm" type="text" placeholder="Enter Your Institute Name" aria-label="Enter Your Institute Name Here">
+            </div>
           </div>
           <div class="block">
-              <div class="profile-card">
-                <h3>Contact Information</h3>
-                <hr>
-                <div class="profile-information">
-                  <h4>Email: <span>{{current_user.email}}</span></h4>
-                  <h4>Phone Number: <span>(+977) {{current_user.phoneNumber}}</span></h4>
-                </div>
-              </div>
+            <div class="form-group">
+              <label>Name of the Institute</label>
+              <input class="form-control form-control-sm" type="text" placeholder="Enter Your Institute Name" aria-label="Enter Your Institute Name Here">
+            </div>
+            <div class="form-group">
+              <label>Name of the Institute</label>
+              <input class="form-control form-control-sm" type="text" placeholder="Enter Your Institute Name" aria-label="Enter Your Institute Name Here">
+            </div>
           </div>
           <div class="block">
-              <div class="profile-card">
-                <h3>Address Information</h3>
-                <hr>
-                <div class="profile-information">
-                  <h4>Address: <span>{{current_user.address}}</span></h4>
-                </div>
-              </div>
+            <div class="form-group">
+              <label>Name of the Institute</label>
+              <input class="form-control form-control-sm" type="text" placeholder="Enter Your Institute Name" aria-label="Enter Your Institute Name Here">
+            </div>
+            <div class="form-group">
+              <label>Name of the Institute</label>
+              <input class="form-control form-control-sm" type="text" placeholder="Enter Your Institute Name" aria-label="Enter Your Institute Name Here">
+            </div>
           </div>
         </div>
         <div class="col-lg-4">
           <div class="block">
-            <div class="display-banner">
-              <img src="/static/img/dashboard/blooddonation.jpg">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+              <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
             </div>
+          </div>
+          <div class="block">
+            
           </div>
         </div>
       </div>
@@ -173,6 +206,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 <script>
 $(document).ready(function(){
   $(".toggle-sidebar-icon").click(function(){
@@ -181,6 +218,57 @@ $(document).ready(function(){
     $(".main-content").toggleClass("toggledSidebar");
   });
 });
+</script>
+<script type="text/javascript">
+  // var lat;
+  // var long;
+  // initGeolocation();
+  // function initGeolocation()
+  //   {
+  //     if( navigator.geolocation )
+  //       {
+
+  //         console.log('majjale chalyo');
+  //         navigator.geolocation.getCurrentPosition(success);
+  //       }
+  //     else
+  //       {
+  //         console.log('iss chalyo');
+  //         alert("Sorry, your browser does not support geolocation services.");
+  //       }
+  //   }
+
+  // function success(position)
+  //   {
+  //     lat = position.coords.longitude;
+  //     long = position.coords.latitude;
+  //   }
+
+  //   console.log(lat)
+
+    var lat = 27.670521215483202;
+    var long = 85.44178979691917;
+    var mymap = L.map('mapid').setView([lat, long], 13);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1IjoiYXJzZW5hbGRwZXMxNCIsImEiOiJja3J3ZDdzNm0wZmU3Mm9xajl0eTV6ZnUwIn0.08DbU31RyMTU1CpQk-CtlA'
+    }).addTo(mymap);
+
+    var marker = L.marker([lat, long]).addTo(mymap);
+    L.marker([27.66, 85.43]).addTo(mymap);
+    var circle = L.circle([lat, long], {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: 1000
+    }).addTo(mymap);
+
+    L.control.locate().addTo(mymap);
 </script>
 </body>
 </html>

@@ -4,6 +4,13 @@ import sqlite3
 from itertools import tee
 import requests
 
+#for making the dictionary format of data from query
+def dict_factory(cursor, row):
+    d = {}
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+    return d
+
 def db_connection():
     conn = None
     try:
@@ -14,8 +21,21 @@ def db_connection():
         print(e)
     return conn
 
-conn = db_connection()
+def Gpoints():
+    conn = db_connection()
+    conn.row_factory = dict_factory
     cursor = conn.cursor()
+    
+
+    if request.method == 'GET':
+        userlist = cursor.execute("SELECT * FROM users WHERE User_type='Donor' OR User_type='Both';").fetchall()
+        if not userlist:
+            return page_not_found(404)
+
+        return jsonify(userlist),200
+    conn.commit()
+    conn.close()
+     
 
 #     if request.method == 'POST':
 #         data = request.get_json()

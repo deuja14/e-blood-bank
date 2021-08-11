@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import sqlite3
+import requests
 
 
 app = Flask(__name__)
@@ -112,6 +113,22 @@ def login_pressed():
     return jsonify(results),202
     # test = "sanam"
     # return f"this is return {test} from the api side",500
+
+@app.route('/dmapi', methods=['POST'])
+def Gpoints():
+    conn = db_connection()
+    conn.row_factory = dict_factory
+    cursor = conn.cursor()
+    
+
+    if request.method == 'POST':
+        userlist = cursor.execute("SELECT * FROM users WHERE Blood_type='A+';").fetchall()
+        if not userlist:
+            return page_not_found(404)
+
+        return jsonify(userlist),200
+    conn.commit()
+    conn.close()
 
 if __name__ == '__main__':
     app.run()

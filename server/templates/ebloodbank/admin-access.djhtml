@@ -1,0 +1,14 @@
+{% set pageTitle = "Admin Access" %}
+{% extends 'ebloodbank/base.djhtml' %}
+
+{% block head %}{% endblock %}
+
+{% block bodyHead %}{% endblock %}
+
+{% block content %}
+	<div class="container d-flex align-items-center" style="height: 100vh;">
+		<h2>You are not admin</h2>
+	</div>
+{% endblock %}
+
+{% block tail %}{% endblock %}

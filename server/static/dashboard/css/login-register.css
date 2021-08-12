@@ -1,6 +1,6 @@
 body {
-	padding: 0;
-	margin: 0;
+	/*padding: 0;
+	margin: 0;*/
 	background-color: #d4ebf2;
 	height: 100vh;
 }
@@ -13,7 +13,7 @@ a {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	/*height: 100vh;*/
+	height: 100vh;
 }
 
 .user-authentication-block>.container {
@@ -27,13 +27,29 @@ a {
 	background-color: #eb1313;
 }
 
+.auth-left-block .icon-block {
+	text-align: center;
+}
+
+.auth-left-block i {
+	font-size: 70px;
+}
+
+.auth-left-block .title-block {
+	text-align: center;
+}
+
+.auth-left-block .title-block h2 {
+	font-size: 24px;
+}
+
 .auth-right-block {
-	padding: 40px 25px;
+	padding: 20px 25px;
 	background-color: #ffffff;
 }
 
 .form-group {
-	margin-top: 15px;
+	margin-top: 10px;
 }
 
 .btn-primary {
@@ -48,7 +64,7 @@ a {
 
 .btn-block {
 	width: 100%;
-	margin-top: 25px;
+	margin-top: 10px;
 }
 
 .form-footer {

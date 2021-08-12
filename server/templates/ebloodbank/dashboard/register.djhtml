@@ -20,7 +20,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-4 auth-left-block">
-                    <h2>Create An Account</h2>
+                    <div>
+                        <div class="icon-block">
+                            <i class='bx bx-user-circle'></i>
+                        </div>
+                        <div class="title-block">
+                            <h2>Create An Account</h2>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-8 auth-right-block">
                     <form method="POST">
@@ -29,53 +36,59 @@
                           <label for="fullName">Enter Your Name</label>
                           <input type="text" class="form-control" id="fullName" name="fullName" aria-describedby="Full Name">
                         </div>
-                        <div class="form-group">
-                            <label for="email">Enter Your Email Address</label>
-                            <input type="email" class="form-control" id="email" name="email" aria-describedby="Email">
-                        </div>
-                        <div class="form-group">
-                            <label for="phoneNumber">Enter Your Phone Number</label>
-                            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" aria-describedby="Phone Number">
+                        <div class="row">
+                        <div class="form-group col-6">
+                                <label for="email">Enter Your Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email" aria-describedby="Email">
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="phoneNumber">Enter Your Phone Number</label>
+                                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" aria-describedby="Phone Number">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="address">Enter Your Address</label>
                             <input type="text" class="form-control" id="address" name="address" aria-describedby="Address">
                         </div>
-                        <div class="form-group">
-                            <label for="bloodGroup">Select Your Blood Group</label>
-                            <select class="form-select" id="bloodGroup" name="bloodGroup" aria-label="Blood Group">
-                              <option selected>--Select--</option>
-                              <option value="A +ve">A +ve</option>
-                              <option value="A -ve">A -ve</option>
-                              <option value="B +ve">B +ve</option>
-                              <option value="B -ve">B -ve</option>
-                              <option value="AB +ve">AB +ve</option>
-                              <option value="AB -ve">AB -ve</option>
-                              <option value="O +ve">O +ve</option>
-                              <option value="O -ve">O -ve</option>
-                            </select>
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label for="bloodGroup">Select Your Blood Group</label>
+                                <select class="form-select" id="bloodGroup" name="bloodGroup" aria-label="Blood Group">
+                                  <option selected>--Select--</option>
+                                  <option value="A +ve">A +ve</option>
+                                  <option value="A -ve">A -ve</option>
+                                  <option value="B +ve">B +ve</option>
+                                  <option value="B -ve">B -ve</option>
+                                  <option value="AB +ve">AB +ve</option>
+                                  <option value="AB -ve">AB -ve</option>
+                                  <option value="O +ve">O +ve</option>
+                                  <option value="O -ve">O -ve</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="gender">Select Your Gender</label>
+                                <select class="form-select" id="gender" name="gender" aria-label="Gender">
+                                  <option selected>--Select--</option>
+                                  <option value="Male">Male</option>
+                                  <option value="Female">Female</option>
+                                  <option value="Others">Others</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="gender">Select Your Gender</label>
-                            <select class="form-select" id="gender" name="gender" aria-label="Gender">
-                              <option selected>--Select--</option>
-                              <option value="Male">Male</option>
-                              <option value="Female">Female</option>
-                              <option value="Others">Others</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
+                        <div class="row">
+                            <div class="form-group col-6">
                             <label for="age">Enter Your Age</label>
-                            <input type="text" class="form-control" id="age" name="age" aria-describedby="Age">
-                        </div>
-                        <div class="form-group">
-                            <label for="userType">Are You?</label>
-                            <select class="form-select" id="userType" name="userType" aria-label="User Type">
-                              <option selected>--Select--</option>
-                              <option value="Male">Both</option>
-                              <option value="Female">Donor</option>
-                              <option value="Others">Receiver</option>
-                            </select>
+                                <input type="text" class="form-control" id="age" name="age" aria-describedby="Age">
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="userType">Donor or Receiver?</label>
+                                <select class="form-select" id="userType" name="userType" aria-label="User Type">
+                                  <option selected>--Select--</option>
+                                  <option value="Both">Both</option>
+                                  <option value="Donor">Donor</option>
+                                  <option value="Receiver">Receiver</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="password">Enter Your Password</label>

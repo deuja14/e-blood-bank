@@ -32,8 +32,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.Text, unique = True, nullable = False)
     phoneNumber = db.Column(db.Text, unique = True, nullable = False)
     address = db.Column(db.Text, nullable = False)
-    lat = db.Column(db.Text, nullable = False)
-    lng = db.Column(db.Text, nullable = False)
+    lat = db.Column(db.Text, nullable = True, default = 0.0)
+    lng = db.Column(db.Text, nullable = True, default = 0.0)
     bloodGroup = db.Column(db.Text, nullable = False)
     gender = db.Column(db.Text, nullable = False)
     age = db.Column(db.Text, nullable = False)
@@ -42,7 +42,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.Text, nullable = False)
     dateRegistered = db.Column(db.DateTime, nullable = True, default = datetime.utcnow)
 
-    messageId = db.relationship('Message', backref = 'message_id', lazy = True) 
+    messageId = db.relationship('Message', backref = 'message_id', lazy = True)
 
     def get_id(self):
         return (self.userId)
@@ -64,9 +64,10 @@ class Newsletter(db.Model):
     __tablename__ = 'newsletter'
     id = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.Text, unique = True, nullable = False)
+    dateRegistered = db.Column(db.DateTime, nullable = True, default = datetime.utcnow)
 
     def __repr__(self):
-        return f"Newsletter('{self.email}')"
+        return f"Newsletter('{self.email}', '{self.dateRegistered}')"
 
 class Notice(db.Model):
     __tablename__ = 'notice'

@@ -3,7 +3,7 @@ from flask import Flask, render_template, jsonify, request, redirect, url_for
 from flask_login import login_user, current_user, logout_user, login_required
 import sqlite3
 from ebloodbank import app, db, bcrypt
-from ebloodbank.models import User, Newsletter
+from ebloodbank.models import User, Newsletter, Notice, BloodBank
 from ebloodbank.forms import RegistrationForm, LoginForm, NewsletterForm, NoticeForm, BloodBankForm, AmbulanceForm
 # from flask_admin import Admin
 
@@ -28,22 +28,31 @@ def restricted(access_level):
         @wraps(func)
         def wrapper(*args, **kwargs):
             if not current_user.role == access_level:
-                return redirect(url_for('home'))
+                return redirect(url_for('admin_access'))
             return func(*args, **kwargs)
         return wrapper
     return decorator
+
+@app.route("/admin-access")
+def admin_access():
+	return render_template(
+		'/ebloodbank/admin-access.djhtml'
+		)
 
 @app.route("/", methods=['GET','POST'])
 # @login_required
 def home():
 	form = NewsletterForm()
 	if request.method == 'POST':
-		if form.validate_on_submit():
-			email = Newsletter(email=form.email.data)
-			db.session.add(email)
-			db.session.commit()
+		# if form.validate_on_submit():
+		email = Newsletter(email=form.email.data)
+		db.session.add(email)
+		db.session.commit()
+		print('success')
+		# else:
+			# print('failed')
 	return render_template(
-		'/ebloodbank/home.djhtml'
+		'/ebloodbank/home.djhtml', form=form
 		)
 
 @app.route("/register", methods=['GET','POST'])
@@ -71,7 +80,7 @@ def user_login():
 			if user and bcrypt.check_password_hash(user.password, form.password.data):
 				login_user(user)
 				next_page = request.args.get('next')
-				return redirect(next_page) if next_page else redirect(url_for('user_dashboard'))
+				return redirect(next_page) if next_page else redirect(url_for('dashboard'))
 			else:
 				print('Invalid')
 	return render_template(
@@ -86,14 +95,26 @@ def user_logout():
 
 @app.route("/dashboard")
 @login_required
-def user_dashboard():
+def dashboard():
+	user = User.query.all()
+	totalNumber = User.query.count()
+	totalMale = User.query.filter_by(gender = 'Male').count()
+	totalFemale = User.query.filter_by(gender = 'Female').count()
+	totalApos = User.query.filter_by(bloodGroup = 'A +ve').count()
+	totalAneg = User.query.filter_by(bloodGroup = 'A -ve').count()
+	totalBpos = User.query.filter_by(bloodGroup = 'B +ve').count()
+	totalBneg = User.query.filter_by(bloodGroup = 'B -ve').count()
+	totalABpos = User.query.filter_by(bloodGroup = 'AB +ve').count()
+	totalABneg = User.query.filter_by(bloodGroup = 'AB -ve').count()
+	totalOpos = User.query.filter_by(bloodGroup = 'O +ve').count()
+	totalOneg = User.query.filter_by(bloodGroup = 'O -ve').count()
 	return render_template(
-		'/ebloodbank/dashboard/dashboard.djhtml'
+		'/ebloodbank/dashboard/dashboard.djhtml', user = user, totalNumber = totalNumber, totalMale = totalMale, totalFemale = totalFemale, totalApos = totalApos, totalAneg = totalAneg, totalBpos = totalBpos, totalBneg = totalBneg, totalABpos = totalABpos, totalABneg = totalABneg, totalOpos = totalOpos, totalOneg = totalOneg
 		)
 
 @app.route("/dashboard/profile")
 @login_required
-def user_profile():
+def profile():
 	return render_template(
 		'/ebloodbank/dashboard/profile.djhtml'
 		)
@@ -103,28 +124,77 @@ def user_profile():
 def user_list():
 	user = User.query.all()
 	return render_template(
-		'/ebloodbank/dashboard/user-list.djhtml', user = user
+		'/ebloodbank/dashboard/all-users.djhtml', user = user
 		)
 
-@app.route("/admin/")
+@app.route("/dashboard/subscribers")
 @login_required
-@restricted(access_level="ADMIN")
-def admin_dashboard():
-	user = User.query.all()
+def email_subscribers():
+	newsletter = Newsletter.query.all()
 	return render_template(
-		'/ebloodbank/admin/dashboard.djhtml', user = user
+		'/ebloodbank/dashboard/subscribers.djhtml', newsletter = newsletter
 		)
 
-@app.route("/admin/add-notice")
+@app.route("/dashboard/add-notice", methods=['GET','POST'])
 @login_required
 @restricted(access_level="ADMIN")
 def add_notice():
 	form = NoticeForm()
 	if request.method == 'POST':
-		if form.validate_on_submit():
-			title = Notice(email=form.title.data)
-			db.session.add(email)
-			db.session.commit()
+		# if form.validate_on_submit():
+		notice = Notice(title=form.title.data, description=form.description.data)
+		db.session.add(notice)
+		db.session.commit()
+		print('success')
+		# else:
+		# 	print('failed')
 	return render_template(
-		'/ebloodbank/admin/add-notice.djhtml'
+		'/ebloodbank/dashboard/add-notice.djhtml', form = form
+		)
+
+@app.route("/dashboard/all-notice")
+@login_required
+@restricted(access_level="ADMIN")
+def all_notice():
+	notice = Notice.query.all()
+	return render_template(
+		'/ebloodbank/dashboard/all-notice.djhtml', notice = notice
+		)
+
+@app.route("/dashboard/add-bloodbank", methods=['GET','POST'])
+@login_required
+@restricted(access_level="ADMIN")
+def add_bloodbank():
+	form = BloodBankForm()
+	if request.method == 'POST':
+		bloodbank = BloodBank(name=form.name.data, address=form.address.data, contact=form.contact.data)
+		db.session.add(bloodbank)
+		db.session.commit()
+		print('success')
+	return render_template(
+		'/ebloodbank/dashboard/add-bloodbank.djhtml', form = form
+		)
+
+@app.route("/dashboard/all-bloodbank")
+@login_required
+@restricted(access_level="ADMIN")
+def all_bloodbank():
+	bloodbank = BloodBank.query.all()
+	return render_template(
+		'/ebloodbank/dashboard/all-bloodbank.djhtml', bloodbank = bloodbank
+		)
+
+
+@app.route("/dashboard/blood-request")
+@login_required
+def blood_request():
+	return render_template(
+		'/ebloodbank/dashboard/bloodrequest.djhtml'
+		)
+
+@app.route("/dashboard/blood-donate")
+@login_required
+def blood_donate():
+	return render_template(
+		'/ebloodbank/dashboard/blooddonate.djhtml'
 		)

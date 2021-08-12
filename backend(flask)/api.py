@@ -29,6 +29,43 @@ def db_connection():
 def page_not_found(e):
     return "<h1>404</h1><p>The resource could not be found.</p>", e
 
+@app.route('/apositive',methods=['GET'])
+def apos():
+    conn = db_connection()
+    conn.row_factory = dict_factory
+    cursor = conn.cursor()
+    
+
+    if request.method == 'GET':
+        userlist = cursor.execute("SELECT * FROM users WHERE Blood_type='A+';").fetchall()
+        if not userlist:
+            return page_not_found(404)
+
+        return jsonify(userlist),200
+    conn.commit()
+    conn.close()    
+
+@app.route('/distancematrix', methods=['POST'],)
+def distancematrix():
+    conn = db_connection()
+    conn.row_factory = dict_factory
+    cursor = conn.cursor()
+
+    data =  request.get_json()
+    latitude=data['latitude']
+    longitude=data['longitude']
+    print(latitude,longitude)
+    userlist = cursor.execute("SELECT * FROM users WHERE Blood_type='AB-';").fetchall()
+    if not userlist:
+        return page_not_found(404)
+
+    conn.commit()
+    conn.close()
+    print(userlist)
+    return jsonify(userlist),200
+
+
+
 @app.route('/signup', methods=['POST'])
 def post():
     conn = db_connection()
@@ -114,21 +151,6 @@ def login_pressed():
     # test = "sanam"
     # return f"this is return {test} from the api side",500
 
-@app.route('/dmapi', methods=['POST'])
-def Gpoints():
-    conn = db_connection()
-    conn.row_factory = dict_factory
-    cursor = conn.cursor()
-    
-
-    if request.method == 'POST':
-        userlist = cursor.execute("SELECT * FROM users WHERE Blood_type='A+';").fetchall()
-        if not userlist:
-            return page_not_found(404)
-
-        return jsonify(userlist),200
-    conn.commit()
-    conn.close()
 
 if __name__ == '__main__':
     app.run()

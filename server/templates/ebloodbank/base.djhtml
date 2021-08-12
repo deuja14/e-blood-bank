@@ -22,8 +22,6 @@
     <header>
         {% block bodyHead %}{% endblock %}
         {% include '/ebloodbank/header.djhtml' %}
-        {# {% include '/ebloodbank/header1.djhtml' %}
-        {% include '/ebloodbank/header2.djhtml' %} #}
     </header>
 
     <main>

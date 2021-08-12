@@ -1,0 +1,38 @@
+{% set pageTitle = "Add Blood Bank" %}
+{% extends 'ebloodbank/dashboard/base.djhtml' %}
+
+{% block headCSS %}{% endblock %}
+{% block head %}{% endblock %}
+
+{% block bodyHead %}{% endblock %}
+
+{% block content %}
+	<div class="row">
+	    <div class="col-lg-8">
+	        <div class="block">
+	        	<form method="POST">
+		            <div class="form-group">
+		                <label>Enter Blood Bank Name</label>
+		                <input type="text" class="form-control form-control-sm" id="name" name="name" aria-label="Enter Blood Bank Name">
+		            </div>
+		            <div class="form-group">
+		                <label>Address</label>
+		                <input type="text" class="form-control form-control-sm" id="address" name="address" aria-label="Address">
+		            </div>
+		            <div class="form-group">
+		                <label>Enter Contact Number / Phone Number</label>
+		                <input type="text" class="form-control form-control-sm" id="contact" name="contact" aria-label="Enter Contact Number">
+		            </div>
+		            <button type="submit" id="submit" name="submit" class="btn btn-primary">Save</button>
+		        </form>
+	        </div>
+	    </div>
+        <div class="col-lg-4">
+            <div class="block">
+            	
+            </div>
+        </div>
+	</div>
+{% endblock %}
+
+{% block tail %}{% endblock %}

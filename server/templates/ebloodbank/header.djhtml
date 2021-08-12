@@ -12,7 +12,12 @@
                 <li><a href="#footer">Contact Us</a></li>
             </ul>
         </nav>
-        <a href="/login" target="_blank" class="get-started-btn scrollto">Donate Now</a>
-        <a class="user-dashboard" href="/dashboard"><i class='bx bxs-user-circle'></i></a>
+        <a href="/dashboard" class="get-started-btn scrollto">Donate Now</a>
+        {% if current_user.is_authenticated %}
+            <a class="user-dashboard" href="/dashboard"><i class='bx bxs-user-circle'></i></a>
+            <span class="ml-4">Hello, {{current_user.fullName}}</span>
+        {% else %}
+        <a class="ml-4" href="/login">Login / Register</a>
+        {% endif %}
     </div>
 </header>

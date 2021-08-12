@@ -1,0 +1,44 @@
+{% set pageTitle = "Add New Notice" %}
+{% extends 'ebloodbank/dashboard/base.djhtml' %}
+
+{% block headCSS %}{% endblock %}
+{% block head %}{% endblock %}
+
+{% block bodyHead %}{% endblock %}
+
+{% block content %}
+	<div class="row">
+	    <div class="col-lg-8">
+	        <div class="block">
+	        	<form method="POST">
+		            <div class="form-group">
+		                <label>Enter Notice Title</label>
+		                <input type="text" class="form-control form-control-sm" id="title" name="title" aria-label="Enter Notice Title">
+		            </div>
+		            <div class="form-group">
+		                <label>Enter Notice Description</label>
+		                <textarea class="form-control" id="description" name="description" style="height: 35vh;"></textarea>
+		            </div>
+		            <button type="submit" id="submit" name="submit" class="btn btn-primary">Publish</button>
+		        </form>
+	        </div>
+	    </div>
+        <div class="col-lg-4">
+            <div class="block">
+            	<form method="POST">
+    	            <div class="form-group">
+    	                <label>Enter Notice Title</label>
+    	                <input type="text" class="form-control form-control-sm" id="title" name="title" aria-label="Enter Notice Title">
+    	            </div>
+    	            <div class="form-group">
+    	                <label>Enter Notice Description</label>
+    	                <textarea class="form-control" id="description" name="description" style="height: 35vh;"></textarea>
+    	            </div>
+    	            <button type="submit" id="submit" name="submit" class="btn btn-primary">Publish</button>
+    	        </form>
+            </div>
+        </div>
+	</div>
+{% endblock %}
+
+{% block tail %}{% endblock %}

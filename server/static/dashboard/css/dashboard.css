@@ -97,7 +97,35 @@ a {
     transition: all 0.5s;
 }
 
-.main-sidebar-logo h2 {
+.main-sidebar-header {
+	position: fixed;
+	z-index: 9999;
+    width: 240px;
+    background: #25233c;
+    transition: all 0.5s;
+}
+
+.main-sidebar-header.active {
+	width: 80px;
+	background-color: #fff;
+	margin-top: -14px;
+}
+
+.main-sidebar-header .toggled-logo {
+	display: none;
+}
+
+.main-sidebar-header.active .toggled-logo {
+	display: block;
+	font-size: 34px;
+	color: #25233c;
+}
+
+.main-sidebar-header.active .full-logo {
+	display: none;
+}
+
+.main-sidebar-header h2 {
 	font-size: 24px;
 	color: #ffffff;
 	padding: 25px 15px 0 15px;
@@ -116,12 +144,18 @@ a {
 
 .main-sidebar-body {
 	height: 100%;
+	margin-top: 40px;
 	padding: 25px;
 }
 
 .main-sidebar-body .nav {
 	display: flex;
     flex-direction: column;
+}
+
+.main-sidebar-body .nav-header {
+	margin-top: 10px;
+	margin-bottom: 0;
 }
 
 .main-sidebar-body .nav-header-label {
@@ -258,10 +292,6 @@ a {
 	margin-bottom: 1rem;
 }
 
-.form-group + .form-group {
-	margin-top: 10px;
-}
-
 .form-group label {
 	margin-bottom: 10px;
 }
@@ -332,11 +362,47 @@ a {
 	width: 450px;
 }
 
-/*Admin Dashboard*/
-.total-number-of-users {
-	background-color: #ddd;
+/*Dashboard Stats*/
+.dashboard-stats .card {
+	border: none;
 }
 
-.number-stats-block + .number-stats-block {
-	margin-right: 5px;
+.dashboard-stats .card {
+	margin-top: 5px;
+}
+
+.dashboard-stats .card-label {
+	color: #1d212f;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1;
+    font-size: 14px;
+    letter-spacing: .2px;
+    padding-top: 0.25rem !important;
+    margin-bottom: 1rem !important;
+}
+
+.dashboard-stats-info i {
+	display: inline-block;
+	background: #edebff;
+	height: 40px;
+	width: 40px;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 50%;
+	font-size: 21px;
+	color: #6259ca !important;
+}
+
+.dashboard-stats-info h2 {
+	display: inline-block;
+	float: right;
+}
+
+.leaflet-control-attribution a {
+	display: none;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+	background-color: #eb1313;
 }

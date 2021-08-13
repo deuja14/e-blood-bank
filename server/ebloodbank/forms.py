@@ -77,3 +77,16 @@ class AmbulanceForm(FlaskForm):
     contact = StringField('Contact',
                            validators=[DataRequired()], render_kw={"placeholder": "Contact"})
     submit = SubmitField('Save')
+
+class BloodRequestForm(FlaskForm):
+    age = StringField('Age',
+                           validators=[DataRequired()], render_kw={"placeholder": "Enter Your Age"})
+    gender = StringField('Gender',
+                           validators=[DataRequired()], render_kw={"placeholder": "Enter Your Gender"})
+    bloodGroup = StringField('Blood Group',
+                           validators=[DataRequired()], render_kw={"placeholder": "Enter Your Bloodgroup"})
+    location = StringField('Location',
+                           validators=[DataRequired()], render_kw={"placeholder": "Location"})
+    nearestLandmark = StringField('Nearest Landmark',
+                           validators=[DataRequired()], render_kw={"placeholder": "Nearest Landmark"})
+    submit = SubmitField('Request')

@@ -1,7 +1,17 @@
 {% set pageTitle = "Blood Request" %}
 {% extends 'ebloodbank/dashboard/base.djhtml' %}
 
-{% block headCSS %}{% endblock %}
+{% block headCSS %}
+{# <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+crossorigin=""/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.4/dist/L.Control.Locate.min.css" /> #}
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/topojson.v0.min.js"></script>
+<link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.css" />
+<script src="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.js"></script>
+{% endblock %}
 {% block head %}{% endblock %}
 
 {% block bodyHead %}{% endblock %}
@@ -12,82 +22,73 @@
 		<div class="block">
 			<div class="row">
 				<div class="col-lg-12">
-					<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-						<li class="nav-item" role="presentation">
-							<button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">For Me</button>
-						</li>
-						<li class="nav-item" role="presentation">
-							<button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">For Patient</button>
-						</li>
-					</ul>
-					<div class="tab-content" id="pills-tabContent">
-						<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">...</div>
-						<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-							<form method="POST">
-							    <div class="form-group">
-							      <label>Enter Patient Name</label>
-							      <input type="text" class="form-control" id="patientName" name="patientName" aria-describedby="Full Name">
-							    </div>
-							    <div class="row">
-							        <div class="form-group col-6">
-							        <label for="age">Patient Age</label>
-							            <input type="text" class="form-control" id="age" name="age" aria-describedby="Age">
-							        </div>
-							        <div class="form-group col-6">
-							            <label for="gender">Patient Gender</label>
-							            <select class="form-select" id="gender" name="gender" aria-label="Gender">
-							              <option selected>--Select--</option>
-							              <option value="Male">Male</option>
-							              <option value="Female">Female</option>
-							              <option value="Others">Others</option>
-							            </select>
-							        </div>
-							    </div>
-							    <div class="row">
-							    	<div class="form-group col-6">
-							            <label>Enter Email Address</label>
-							            <input type="email" class="form-control" id="email" name="email" aria-describedby="Email">
-							        </div>
-							        <div class="form-group col-6">
-							            <label>Enter Phone Number</label>
-							            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" aria-describedby="Phone Number">
-							        </div>
-							    </div>
-							    <div class="row">
-								    <div class="form-group col-6">
-								        <label>Patient Location (Hospital Address)</label>
-								        <input type="text" class="form-control" id="address" name="address" aria-describedby="Address">
-								    </div>
-								    <div class="form-group col-6">
-								        <label>Nearest Landmark</label>
-								        <input type="text" class="form-control" id="nearestLandmark" name="nearestLandmark" aria-describedby="Address">
-								    </div>
+					<form method="POST">
+						<div class="mt-4 mb-4">
+							<div id="mapid"></div>
+						</div>
+						<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+							<li class="nav-item" role="presentation">
+								<button class="nav-link active" id="pills-foryourself-tab" data-bs-toggle="pill" data-bs-target="#pills-foryourself" type="button" role="tab" aria-controls="pills-foryourself" aria-selected="true">For Me</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button class="nav-link" id="pills-forOthers-tab" data-bs-toggle="pill" data-bs-target="#pills-forOthers" type="button" role="tab" aria-controls="pills-forOthers" aria-selected="false">For Patient</button>
+							</li>
+						</ul>
+						<div class="tab-content" id="pills-tabContent">
+							<div class="tab-pane fade show active" id="pills-foryourself" role="tabpanel" aria-labelledby="pills-foryourself-tab">
+								<form method="POST">
+									{# <div class="form-group">
+										<label>Enter Your Current Address</label>
+										<input type="text" class="form-control" id="address" name="address" aria-describedby="Address">
+									</div>
+									<div class="form-group">
+										<label>Nearest Landmark</label>
+										<input type="text" class="form-control" id="nearestLandmark" name="nearestLandmark" aria-describedby="Address">
+									</div> #}
+									<button type="submit" id="submit" name="submit" class="btn btn-primary btn-block">Request Now</button>
+								</form>
+							</div>
+							<div class="tab-pane fade" id="pills-forOthers" role="tabpanel" aria-labelledby="pills-forOthers-tab">
+								<div class="row">
+									<div class="form-group col-4">
+										<label for="age">Patient Age</label>
+										<input type="text" class="form-control" id="age" name="age" aria-describedby="Age">
+									</div>
+									<div class="form-group col-4">
+										<label for="gender">Patient Gender</label>
+										<select class="form-select" id="gender" name="gender" aria-label="Gender">
+											<option selected>--Select--</option>
+											<option value="Male">Male</option>
+											<option value="Female">Female</option>
+											<option value="Others">Others</option>
+										</select>
+									</div>
+									<div class="form-group col-4">
+										<label for="bloodGroup">Select Blood Group</label>
+										<select class="form-select" id="bloodGroup" name="bloodGroup" aria-label="Blood Group">
+											<option selected>--Select--</option>
+											<option value="A +ve">A +ve</option>
+											<option value="A -ve">A -ve</option>
+											<option value="B +ve">B +ve</option>
+											<option value="B -ve">B -ve</option>
+											<option value="AB +ve">AB +ve</option>
+											<option value="AB -ve">AB -ve</option>
+											<option value="O +ve">O +ve</option>
+											<option value="O -ve">O -ve</option>
+										</select>
+									</div>
 								</div>
-							    <div class="row">
-							        <div class="form-group col-6">
-							            <label for="bloodGroup">Select Blood Group</label>
-							            <select class="form-select" id="bloodGroup" name="bloodGroup" aria-label="Blood Group">
-							              <option selected>--Select--</option>
-							              <option value="A +ve">A +ve</option>
-							              <option value="A -ve">A -ve</option>
-							              <option value="B +ve">B +ve</option>
-							              <option value="B -ve">B -ve</option>
-							              <option value="AB +ve">AB +ve</option>
-							              <option value="AB -ve">AB -ve</option>
-							              <option value="O +ve">O +ve</option>
-							              <option value="O -ve">O -ve</option>
-							            </select>
-							        </div>
-							    </div>
-							    <div class="form-group">
-							        <label for="password">Enter Your Password</label>
-							        <input type="password" class="form-control" id="password" name="password" aria-describedby="Password">
-							    </div>
-							    <div class="form-group">
-							        <label for="confirm_password">Re-Enter Your Password</label>
-							        <input type="password" class="form-control" id="confirm_password" name="confirm_password" aria-describedby="Confirm Password">
-							    </div>
-							    <button type="submit" id="submit" name="submit" class="btn btn-primary btn-block">Register</button>
+								<div class="row">
+									<div class="form-group col-6">
+										<label>Patient Location (Hospital Address)</label>
+										<input type="text" class="form-control" id="location" name="location" aria-describedby="Address">
+									</div>
+									<div class="form-group col-6">
+										<label>Nearest Landmark</label>
+										<input type="text" class="form-control" id="nearestLandmark" name="nearestLandmark" aria-describedby="Address">
+									</div>
+								</div>
+								<button type="submit" id="submit" name="submit" class="btn btn-primary btn-block">Request Now</button>
 							</form>
 						</div>
 					</div>
@@ -98,4 +99,68 @@
 </div>
 {% endblock %}
 
-{% block tail %}{% endblock %}
+{% block tail %}
+<script type="text/javascript">
+	navigator.geolocation.getCurrentPosition(function(location) {
+		// var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
+		var lat = location.coords.latitude;
+		var lng = location.coords.longitude;
+		// alert(latlng);
+		// console.log(latlng);
+
+		// function LatLng(position) {
+		// 	var lat = position.coords.latitude;
+		// 	var lng = position.coords.longitude;
+		// 	alert(lat);
+		// };
+
+		var mymap = L.map('mapid').setView([lat, lng], 14)
+
+		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+			maxZoom: 18,
+			id: 'mapbox/streets-v11',
+			tileSize: 512,
+			zoomOffset: -1,
+			accessToken: 'pk.eyJ1IjoiYXJzZW5hbGRwZXMxNCIsImEiOiJja3J3ZDdzNm0wZmU3Mm9xajl0eTV6ZnUwIn0.08DbU31RyMTU1CpQk-CtlA'
+		}).addTo(mymap);
+
+		var marker = L.marker([lat, lng]).addTo(mymap);
+		var circle = L.circle([lat, lng], {
+			color: 'red',
+			fillColor: '#f03',
+			fillOpacity: 0.5,
+			radius: 1000
+		}).addTo(mymap);
+
+		// $.ajax(
+		// {
+		// 	type:'POST',
+		// 	dataType:'text',
+		// 	url:'/dashboard/blood-request',
+		// 	data: lat,
+		// 	success:function (data) {
+		// 		var reply=data.reply;
+		// 		if (reply=="success")
+		// 		{
+		// 			return;
+		// 		}
+		// 		else
+		// 		{
+		// 			alert("Ajax Error")
+		// 		}
+
+		// 	}
+		// }
+		// );
+		$.ajax({
+		        url: "/dashboard/blood-request",
+		        dataType:'text',
+		        type: "POST",
+		        data: lat,
+		        success: function(data, xhr){
+		            console.log(xhr.status);
+		        }
+		    }); 
+	});
+</script>
+{% endblock %}

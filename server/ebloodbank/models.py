@@ -28,14 +28,7 @@ class User(db.Model, UserMixin):
     __tablename__ = 'user'
     userId = db.Column(db.Integer, primary_key = True)
     role = db.Column(db.Text, nullable = False, default = 'USER')
-<<<<<<< HEAD
-    # userName = db.Column(db.Text, unique = True, nullable = False)
-    name = db.Column(db.Text, nullable = True)
-    firstName = db.Column(db.Text, nullable = False)
-    lastName = db.Column(db.Text, nullable = False)
-=======
     fullName = db.Column(db.Text, nullable = False)
->>>>>>> af095d38678f6ea92af99f8e35d029bd27c6ba50
     email = db.Column(db.Text, unique = True, nullable = False)
     phoneNumber = db.Column(db.Text, unique = True, nullable = False)
     address = db.Column(db.Text, nullable = False)

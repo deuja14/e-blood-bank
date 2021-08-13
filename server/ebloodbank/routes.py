@@ -198,3 +198,43 @@ def blood_donate():
 	return render_template(
 		'/ebloodbank/dashboard/blooddonate.djhtml'
 		)
+
+# ----------------------------------------------mobile api----------------------------------------
+@app.route('/signup', methods=['GET','POST'])
+def mobile_registration():
+	if request.method == 'POST':
+		data = request.get_json()
+		if data:
+			Name = data['name']
+			Phone = data['phone']
+			Address = data['address']
+			Age = data['age']
+			User_type = data['user_type']
+			Gender = data['gender']
+			Blood_type = data['bgroup']
+			Latitude = data['latitude']
+			Longitude = data['longitude']
+			Password = data['password']
+			hashed_password = bcrypt.generate_password_hash(Password).decode('utf-8')
+			Email = data['email']
+			user = User(fullName=Name, email=Email, phoneNumber=Phone, address=Address, lat=Latitude, lng=Longitude, bloodGroup=Blood_type, gender=Gender, age=Age, userType=User_type, password=hashed_password)
+			db.session.add(user)
+			db.session.commit()
+			print('success')
+		else:
+			print('failed')
+	return f"Book with the id: 0 created successfully", 201
+
+@app.route("/signin", methods=['GET','POST'])
+def signin():
+	if request.method == 'POST':
+		data = request.get_json()
+		if data:
+			username=data['username']
+			pwd=data['password']
+			user = User.query.filter_by(phoneNumber = username).first()
+			if user and bcrypt.check_password_hash(user.password, pwd):
+				print('valid login')
+			else:
+				print('Invalid login')
+	return f"login successfully executed", 202

@@ -400,7 +400,7 @@ class _SignupPageState extends State<SignupPage> {
       'email': email
     };
     var jsonResponse = null;
-    var response = await http.post(Uri.parse("http://10.0.2.2:5000/signup"), 
+    var response = await http.post(Uri.parse("http://10.0.2.2:5001/signup"), 
     headers: {"Content-type":"application/json"},
     body: jsonEncode(data));
     if(response.statusCode == 201) {

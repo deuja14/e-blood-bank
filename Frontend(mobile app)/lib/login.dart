@@ -216,14 +216,16 @@ class _LoginPageState extends State<LoginPage> {
     };
     var jsonResponse;
     jsonResponse = null;
-    var response = await http.post(Uri.parse("http://10.0.2.2:5000/login"), 
+    var response = await http.post(Uri.parse("http://10.0.2.2:5001/signin"), 
     headers: {"Content-type":"application/json"},
     body: jsonEncode(data));
     if(response.statusCode == 202) {
 
-      jsonResponse = json.decode(response.body);
-      print(jsonResponse[0]['Latitude']);
-      // print(response.body);
+      //--------------if returning a json file from request
+      // jsonResponse = json.decode(response.body);
+      // print(jsonResponse[0]['Latitude']);
+
+      print(response.body);
       // if(jsonResponse != null) {
       //   setState(() {
       //     _isLoading = false;

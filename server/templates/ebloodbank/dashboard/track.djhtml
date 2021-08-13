@@ -1,0 +1,81 @@
+{% set pageTitle = "Track User" %}
+{% extends 'ebloodbank/dashboard/base.djhtml' %}
+
+{% block headCSS %}
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css">
+<style type="text/css">
+#map {
+	height: 60vh;
+}
+
+.results {
+	background-color: white;
+	opacity: 0.8;
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	width: 320px;
+	height: 480px;
+	overflow-y: scroll;
+}
+</style>
+{% endblock %}
+{% block head %}{% endblock %}
+
+{% block bodyHead %}{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-lg-12">
+		<div class="block">
+			<div id="map" class="map"></div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block tail %}
+<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+<script src="/static/leaflet/Control.Geocoder.js"></script>
+<script type="text/javascript">
+	window.lrmConfig = {
+	//    serviceUrl: 'https://api.mapbox.com/directions/v5',
+	//    profile: 'mapbox/driving',
+};
+</script>
+<script type="text/javascript">
+	navigator.geolocation.getCurrentPosition(function(location) {
+		// var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
+		var current_lat = location.coords.latitude;
+		var current_lng = location.coords.longitude;
+		var map = L.map('map');
+
+		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+		}).addTo(map);
+
+		var control = L.Routing.control(L.extend(window.lrmConfig, {
+			waypoints: [
+			L.latLng(current_lat,current_lng),
+			L.latLng(27.66, 85.43)
+			],
+			geocoder: L.Control.Geocoder.nominatim(),
+			routeWhileDragging: true,
+			draggableWaypoints: false,
+			reverseWaypoints: false,
+			showAlternatives: true,
+			altLineOptions: {
+				styles: [
+				{color: 'black', opacity: 0.15, weight: 9},
+				{color: 'white', opacity: 0.8, weight: 6},
+				{color: 'blue', opacity: 0.5, weight: 2}
+				]
+			}
+		})).addTo(map);
+
+		L.Routing.errorControl(control).addTo(map);
+	});
+</script>
+{% endblock %}

@@ -399,10 +399,64 @@ a {
 	float: right;
 }
 
-.leaflet-control-attribution a {
+.leaflet-control-attribution {
 	display: none;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
 	background-color: #eb1313;
 }
+
+/*Blood Request*/
+.request-card {
+	border: 1px #dddddd solid;
+	padding: 15px;
+}
+
+.request-card-content {
+	display: flex;
+}
+
+.requested-bloodgroup {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 1;
+	padding: 10px;
+	margin-right: 20px;
+	background-color: #eb1313;
+	color: #ffffff;
+}
+
+.requested-bloodgroup h5 {
+	font-size: 24px;
+	font-weight: 700;
+}
+
+.requested-userinfo {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	flex: 2;
+}
+
+.requested-userinfo h5 {
+	font-size: 18px;
+	font-weight: 600;
+}
+
+.requested-userinfo span {
+	font-weight: 400;
+}
+
+.request-card-btn-group {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 20px;
+}
+
+.request-card-btn-group a + a {
+	margin-left: 10px;
+}
+
+

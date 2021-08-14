@@ -3,12 +3,15 @@ import sqlite3
 import requests
 from flask_bcrypt import Bcrypt
 from datetime import datetime
+import requests
 
 
 
 app = Flask(__name__)
 app.config["DEBUG"] = True 
 bcrypt = Bcrypt(app)
+API_key = 'cBKPLEIEAwypZcDMlVYXRroMlS4MO'
+url = 'https://api.distancematrix.ai/maps/api/distancematrix/json'
 
 # debugging is made true
 
@@ -52,22 +55,45 @@ def apos():
 
 @app.route('/distancematrix', methods=['POST'],)
 def distancematrix():
+    donors=[]
     conn = db_connection()
     conn.row_factory = dict_factory
     cursor = conn.cursor()
 
     data =  request.get_json()
-    latitude=data['latitude']
-    longitude=data['longitude']
-    print(latitude,longitude)
-    userlist = cursor.execute("SELECT * FROM user WHERE bloodGroup='AB-';").fetchall()
-    if not userlist:
-        return page_not_found(404)
+    if data:
+        group1=data['bGroup']
+        group2=data['Bgroup']
+        lat1=data['lat']
+        lng1=data['lng']
+        origin=(lat1,lng1)
+        print(group1)
+        sql = """SELECT * FROM user WHERE"""
+        to_filter = []
+        if group1:
+            sql += ' bloodGroup=? OR'
+            to_filter.append(group1)
+        if group2:
+            sql += ' bloodGroup=? OR'
+            to_filter.append(group2)
+        sql = sql[:-3] + ';'
+        results = cursor.execute(sql,to_filter).fetchall()
+        
+        if not results:
+            return page_not_found(404)
+        else:
+            print(len(results))
+            for x in range(len(results)):
+                lat=results[x]['lat']
+                lng=results[x]['lng']
+                destination=(lat,lng)
+                params={'origins':origin,'destinations':destination,'key': API_key}
+                result=requests.post(url,params=params)
+                donors.append(result)
+            return jsonify(donors),202
+    else:
+        print("no json response is empty")
 
-    conn.commit()
-    conn.close()
-    print(userlist)
-    return jsonify(userlist),200
 
 
 

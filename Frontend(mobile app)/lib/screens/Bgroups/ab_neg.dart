@@ -9,13 +9,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
 
-class Anegative extends StatefulWidget {
+class ABnegative extends StatefulWidget {
 
   @override
-  State<Anegative> createState() => AnegativeState();
+  State<ABnegative> createState() => ABnegativeState();
 }
 
-class AnegativeState extends State<Anegative> {
+class ABnegativeState extends State<ABnegative> {
   bool mapToggle;
   GoogleMapController _controller;
   Location location = Location();
@@ -70,8 +70,8 @@ class AnegativeState extends State<Anegative> {
 
   sendlocation() async{
     Map data={
-      'bGroup':"A-",
-      'Bgroup':"A -ve",
+      'bGroup':"AB-",
+      'Bgroup':"AB -ve",
       'lat':currentPosition.latitude,
       'lng':currentPosition.longitude,
     };
@@ -101,7 +101,7 @@ class AnegativeState extends State<Anegative> {
   void setCustomMapPin() async {
     pinLocationIcon = await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(devicePixelRatio: 2.5),
-      'assets/A-.png');
+      'assets/AB-.png');
    }
 
   void setlist(response){
@@ -118,7 +118,7 @@ class AnegativeState extends State<Anegative> {
   fetchdonors() async{
     var jsonResponse;
     jsonResponse = null;
-    var response = await http.get(Uri.parse("http://10.0.2.2:5001/anegative"));
+    var response = await http.get(Uri.parse("http://10.0.2.2:5001/abnegative"));
     if(response.statusCode == 200) {
 
       jsonResponse = json.decode(response.body);
@@ -254,7 +254,7 @@ class AnegativeState extends State<Anegative> {
           child: Column(
             children: [
               SizedBox(height: 100,),
-              Text('A- Donors near you',textScaleFactor: 2,style: TextStyle(color: Colors.white),),
+              Text('AB- Donors near you',textScaleFactor: 2,style: TextStyle(color: Colors.white),),
               Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(

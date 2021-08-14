@@ -325,6 +325,118 @@ def apos():
     conn.commit()
     conn.close()
 
+@app.route('/anegative', methods=['GET','POST'])
+def aneg():
+    conn = db_connection()
+    conn.row_factory = dict_factory
+    cursor = conn.cursor()
+
+    if request.method == 'GET':
+        userlist = cursor.execute("SELECT * FROM user WHERE bloodGroup='A-' OR bloodGroup='A -ve';").fetchall()
+        if not userlist:
+            return page_not_found(404)
+        na=userlist[0]['fullName']
+        print(type(na))
+        return jsonify(userlist),200
+    conn.commit()
+    conn.close()
+
+@app.route('/bpositive', methods=['GET','POST'])
+def bpos():
+    conn = db_connection()
+    conn.row_factory = dict_factory
+    cursor = conn.cursor()
+
+    if request.method == 'GET':
+        userlist = cursor.execute("SELECT * FROM user WHERE bloodGroup='B+' OR bloodGroup='B +ve';").fetchall()
+        if not userlist:
+            return page_not_found(404)
+        na=userlist[0]['fullName']
+        print(type(na))
+        return jsonify(userlist),200
+    conn.commit()
+    conn.close()
+
+@app.route('/bnegative', methods=['GET','POST'])
+def bneg():
+    conn = db_connection()
+    conn.row_factory = dict_factory
+    cursor = conn.cursor()
+
+    if request.method == 'GET':
+        userlist = cursor.execute("SELECT * FROM user WHERE bloodGroup='B-' OR bloodGroup='B -ve';").fetchall()
+        if not userlist:
+            return page_not_found(404)
+        na=userlist[0]['fullName']
+        print(type(na))
+        return jsonify(userlist),200
+    conn.commit()
+    conn.close()
+
+@app.route('/onegative', methods=['GET','POST'])
+def oneg():
+    conn = db_connection()
+    conn.row_factory = dict_factory
+    cursor = conn.cursor()
+
+    if request.method == 'GET':
+        userlist = cursor.execute("SELECT * FROM user WHERE bloodGroup='O-' OR bloodGroup='O -ve';").fetchall()
+        if not userlist:
+            return page_not_found(404)
+        na=userlist[0]['fullName']
+        print(type(na))
+        return jsonify(userlist),200
+    conn.commit()
+    conn.close()
+
+@app.route('/opositive', methods=['GET','POST'])
+def opos():
+    conn = db_connection()
+    conn.row_factory = dict_factory
+    cursor = conn.cursor()
+
+    if request.method == 'GET':
+        userlist = cursor.execute("SELECT * FROM user WHERE bloodGroup='O+' OR bloodGroup='O +ve';").fetchall()
+        if not userlist:
+            return page_not_found(404)
+        na=userlist[0]['fullName']
+        print(type(na))
+        return jsonify(userlist),200
+    conn.commit()
+    conn.close()
+
+@app.route('/abnegative', methods=['GET','POST'])
+def abneg():
+    conn = db_connection()
+    conn.row_factory = dict_factory
+    cursor = conn.cursor()
+
+    if request.method == 'GET':
+        userlist = cursor.execute("SELECT * FROM user WHERE bloodGroup='AB-' OR bloodGroup='AB -ve';").fetchall()
+        if not userlist:
+            return page_not_found(404)
+        na=userlist[0]['fullName']
+        print(type(na))
+        return jsonify(userlist),200
+    conn.commit()
+    conn.close()
+
+@app.route('/abpositive', methods=['GET','POST'])
+def abpos():
+    conn = db_connection()
+    conn.row_factory = dict_factory
+    cursor = conn.cursor()
+
+    if request.method == 'GET':
+        userlist = cursor.execute("SELECT * FROM user WHERE bloodGroup='AB+' OR bloodGroup='AB +ve';").fetchall()
+        if not userlist:
+            return page_not_found(404)
+        na=userlist[0]['fullName']
+        print(type(na))
+        return jsonify(userlist),200
+    conn.commit()
+    conn.close()
+
 @app.route('/notice', methods=['GET','POST'])
 def notice():
 	return f"you have reached /notice", 200

@@ -1,5 +1,11 @@
 import 'package:Ebloodbank/screens/Bgroups/a_neg.dart';
 import 'package:Ebloodbank/screens/Bgroups/a_pos.dart';
+import 'package:Ebloodbank/screens/Bgroups/ab_neg.dart';
+import 'package:Ebloodbank/screens/Bgroups/b_pos.dart';
+import 'package:Ebloodbank/screens/Bgroups/b_neg.dart';
+import 'package:Ebloodbank/screens/Bgroups/ab_pos.dart';
+import 'package:Ebloodbank/screens/Bgroups/o_neg.dart';
+import 'package:Ebloodbank/screens/Bgroups/o_pos.dart';
 import 'package:Ebloodbank/screens/donors.dart';
 import 'package:Ebloodbank/screens/feed.dart';
 import 'package:Ebloodbank/screens/settings.dart';
@@ -49,17 +55,17 @@ Map<String, Function> routes = <String, Function>{
 
   '/bgroup/b+':() => PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation){
-      return LoginPage();
+      return Bpositive();
     }),  
 
   '/bgroup/ab+':() => PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation){
-      return LoginPage();
+      return ABpositive();
     }),  
 
   '/bgroup/o+':() => PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation){
-      return LoginPage();
+      return Opositive();
     }),  
 
   '/bgroup/a-':() => PageRouteBuilder(
@@ -69,17 +75,17 @@ Map<String, Function> routes = <String, Function>{
 
   '/bgroup/ab-':() => PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation){
-      return LoginPage();
+      return ABnegative();
     }),  
 
   '/bgroup/b-':() => PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation){
-      return LoginPage();
+      return Bnegative();
     }),  
 
   '/bgroup/o-':() => PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation){
-      return LoginPage();
+      return Onegative();
     }),  
 
 

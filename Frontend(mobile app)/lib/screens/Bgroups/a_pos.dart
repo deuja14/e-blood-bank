@@ -63,10 +63,28 @@ class ApositiveState extends State<Apositive> {
         userPosition = LatLng(currentPosition.latitude, currentPosition.longitude);
         // _positionupdate();
       });
+      sendlocation();
     }    
   }
 
 
+  sendlocation() async{
+    Map data={
+      'bGroup':"A+",
+      'Bgroup':"A +ve",
+      'lat':currentPosition.latitude,
+      'lng':currentPosition.longitude,
+    };
+    var response = await http.post(Uri.parse("http://10.0.2.2:5000/distancematrix"),
+    headers: {"Content-type":"application/json"},
+    body: jsonEncode(data));
+    if (response.statusCode==202){
+      print("---------------------------sucess--------------------------");
+    }
+    else{
+      print("errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+    }
+  }
 
   @override
   void initState() {
@@ -114,8 +132,8 @@ class ApositiveState extends State<Apositive> {
         markerId: MarkerId(jsonResponse[i]['bloodGroup']),
         position: LatLng(jsonResponse[i]['lat'],jsonResponse[i]['lng']),
         infoWindow: InfoWindow(
-          title: jsonResponse[i]['bloodGroup'],
-          snippet: jsonResponse[i]['fullName'],
+          title: jsonResponse[i]['fullName'],
+          snippet: jsonResponse[i]['phoneNumber'],
         ),
         // icon:pinLocationIcon,
         icon: BitmapDescriptor.defaultMarker,

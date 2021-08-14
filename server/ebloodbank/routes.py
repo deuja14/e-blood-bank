@@ -13,7 +13,7 @@ db.create_all()
 admin_created = User.query.filter_by(role = "ADMIN").first()
 if admin_created is None:
 	admin_password = bcrypt.generate_password_hash("1432117").decode('utf-8')
-	user = User(role="ADMIN", fullName='Dipesh Deuja', email='deujadipesh1407@gmail.com', phoneNumber='9863039154', address='Suryabinayak-12', lat="", lng="", bloodGroup='O +ve', gender='Male', age='23', userType="Both", password=admin_password)
+	user = User(role="ADMIN", fullName='Dipesh Deuja', email='deujadipesh1407@gmail.com', phoneNumber='9863039154', address='Suryabinayak-12', lat='27.6201', lng='85.6116', bloodGroup='O +ve', gender='Male', age='23', userType="Both", password=admin_password)
 	db.session.add(user)
 	db.session.commit()
 
@@ -223,8 +223,7 @@ def blood_donate():
 @login_required
 def track_user():
 	return render_template(
-<<<<<<< HEAD
-		'/ebloodbank/dashboard/blooddonate.djhtml'
+		'/ebloodbank/dashboard/track.djhtml',
 		)
 
 # ----------------------------------------------mobile api----------------------------------------
@@ -316,7 +315,3 @@ def markers():
 	# 		print('select query for marker failed')
 	# return f"login successfully executed",200
 	# # return jsonify(user),200
-=======
-		'/ebloodbank/dashboard/track.djhtml',
-		)
->>>>>>> 5e73f0cbbd80ddc25505ccb9acf5ba82f7628b51

@@ -22,6 +22,20 @@ class AnegativeState extends State<Anegative> {
   LocationData currentPosition;
   var donors = [];
   final Set<Marker> _markers = new Set();
+  Items item1 = new Items(
+    title: "Sanam Suwal",
+    contact: '9843304443',
+  );
+
+  Items item2 = new Items(
+    title: "Abvinash Tamang",
+    contact: '9841585305',
+  );
+
+  Items item3 = new Items(
+    title: "Lalit Maharjan",
+    contact: '9808335751',
+  );
   
   // Set<Marker> markers = Dashboard.markers;
 
@@ -207,23 +221,73 @@ class AnegativeState extends State<Anegative> {
   //   }
     
   // }
+
+
+
+  showdialog(context){
+    List<Items> mylist = [item1, item2, item3];
+    return showDialog(context: context, builder: (context){
+      return Center(
+        child: Material(
+          type: MaterialType.transparency,
+          child: Column(
+            children: [
+              SizedBox(height: 100,),
+              Text('Donors near you',textScaleFactor: 2,style: TextStyle(color: Colors.white),),
+              Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.red[100],
+                  ),
+                constraints: BoxConstraints.tightForFinite(height:250),
+                margin: EdgeInsets.all(10),
+                child: ListView(children: mylist.map((data){
+                  return Container(
+                    decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(20),),
+                    child: InkWell(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.redAccent, borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              data.title,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w600
+                              )
+                            ),
+                          ],
+                        ),
+                      ),
+                    onTap: (){
+                      print("button tapped");
+                      print(data.contact);
+                      // Navigator.pushNamed(context, data.contact);
+                    },
+                  ),
+                  );
+                }).toList()
+                ),
+              )
+            ],
+          ), 
+        ),
+      );
+    });
+  }
+
 }
 
-
-
-showdialog(context){
-  return showDialog(context: context, builder: (context){
-    return Center(
-      child: Material(
-        type: MaterialType.transparency,
-        child: Column(
-          children: [
-            SizedBox(height: 140,),
-            Text('Select Blood Group',textScaleFactor: 2,style: TextStyle(color: Colors.white),),
-            BGroup(),
-          ],
-        ),
-      ),
-    );
-  });
+class Items {
+  String title;
+  String contact;
+  Items({this.title, this.contact,});
 }

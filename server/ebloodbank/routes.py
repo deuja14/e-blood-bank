@@ -286,9 +286,12 @@ def signin():
 			user = User.query.filter_by(phoneNumber = username).first()
 			if user and bcrypt.check_password_hash(user.password, pwd):
 				print('valid login')
+				return f"login successfully executed", 202
 			else:
 				print('Invalid login')
-	return f"login successfully executed", 202
+				return f"login failed", 404
+	else:
+		return f"login failed", 404
 
 @app.route('/api/markers', methods=['GET','POST'])
 def markers():

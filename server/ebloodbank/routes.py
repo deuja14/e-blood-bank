@@ -2,26 +2,21 @@ from functools import wraps
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from flask_login import login_user, current_user, logout_user, login_required
 import sqlite3
+from sqlalchemy import or_
 from ebloodbank import app, db, bcrypt
-from ebloodbank.models import User, Newsletter, Notice, BloodBank
-from ebloodbank.forms import RegistrationForm, LoginForm, NewsletterForm, NoticeForm, BloodBankForm, AmbulanceForm
+from ebloodbank.models import User, Newsletter, Notice, BloodBank, BloodRequest
+from ebloodbank.forms import RegistrationForm, LoginForm, NewsletterForm, NoticeForm, BloodBankForm, AmbulanceForm, BloodRequestForm
 # from flask_admin import Admin
 
-# hashed_password = bcrypt.generate_password_hash("susan").decode('utf-8')
-# user = User(userName="SUSN", firstName="sjdhf", lastName="skjdhf", email="sushansujakhu14@gmail.com", bloodGroup="B+", password=hashed_password, role="ADMIN")
-# db.session.add(user)
 db.create_all()
+
 
 admin_created = User.query.filter_by(role = "ADMIN").first()
 if admin_created is None:
 	admin_password = bcrypt.generate_password_hash("1432117").decode('utf-8')
-	user = User(role="ADMIN", fullName='Dipesh Deuja', email='deujadipesh1407@gmail.com', phoneNumber='9863039154', address='Suryabinayak-12', lat="", lng="", bloodGroup='O +ve', gender='Male', age='23', userType="Both", password=admin_password)
+	user = User(role="ADMIN", fullName='Dipesh Deuja', email='deujadipesh1407@gmail.com', phoneNumber='9863039154', address='Suryabinayak-12', lat='27.6201', lng='85.6116', bloodGroup='O +ve', gender='Male', age='23', userType="Both", password=admin_password)
 	db.session.add(user)
 	db.session.commit()
-
-# admin = Admin(app, name='Dashboard', index_view = MyAdminIndexView())
-# admin.add_view(AdminView(User, db.session))
-# admin.add_view(AdminView(Newsletter, db.session))
 
 def restricted(access_level):
     def decorator(func):
@@ -185,21 +180,77 @@ def all_bloodbank():
 		)
 
 
-@app.route("/dashboard/blood-request")
+@app.route("/dashboard/blood-request", methods=['GET','POST'])
 @login_required
 def blood_request():
+	form = BloodRequestForm()
+	if request.method == 'POST':
+		latlng = request.get_data()
+		print(form.age.data)
+		if form.age.data == "":
+			forPatient = True
+			age = current_user.age
+			gender = current_user.gender
+			bloodGroup = current_user.bloodGroup
+			location = ""
+			nearestLandmark = ""
+		else:
+			forPatient = False
+			age = form.age.data
+			gender = form.gender.data
+			bloodGroup = form.bloodGroup.data
+			location = form.location.data
+			nearestLandmark = form.nearestLandmark.data
+		bloodRequest = BloodRequest(bloodRequest=current_user, age=age, gender=gender, bloodGroup=bloodGroup, location=location, nearestLandmark=nearestLandmark, latlng=latlng, forPatient=forPatient)
+		db.session.add(bloodRequest)
+		db.session.commit()
+		print('success')
+		# return jsonify({'success' : 'success'})
 	return render_template(
-		'/ebloodbank/dashboard/bloodrequest.djhtml'
+		'/ebloodbank/dashboard/bloodrequest.djhtml', form = form
 		)
 
 @app.route("/dashboard/blood-donate")
 @login_required
 def blood_donate():
+	request = BloodRequest.query.all()
+	print(request)
 	return render_template(
-		'/ebloodbank/dashboard/blooddonate.djhtml'
+		'/ebloodbank/dashboard/blooddonate.djhtml', request = request
+		)
+
+
+@app.route("/dashboard/track")
+@login_required
+def track_user():
+	return render_template(
+		'/ebloodbank/dashboard/track.djhtml',
 		)
 
 # ----------------------------------------------mobile api----------------------------------------
+
+def dict_factory(cursor, row):
+    d = {}
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+    return d
+
+#for database connection
+def db_connection():
+    conn = None
+    try:
+        path=r"D:\E-BloodBank\e-blood-bank\database\test1.db"
+        # r represents raw string in python
+        conn=sqlite3.connect(path)
+    except sqlite3.error as e:
+        print(e)
+    return conn
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return "<h1>404</h1><p>The resource could not be found.</p>", e
+
+
 @app.route('/signup', methods=['GET','POST'])
 def mobile_registration():
 	if request.method == 'POST':
@@ -238,3 +289,40 @@ def signin():
 			else:
 				print('Invalid login')
 	return f"login successfully executed", 202
+
+@app.route('/api/markers', methods=['GET','POST'])
+def markers():
+    conn = db_connection()
+    conn.row_factory = dict_factory
+    cursor = conn.cursor()
+
+    if request.method == 'GET':
+        userlist = cursor.execute("SELECT * FROM user WHERE userType='Donor' OR userType='Both';").fetchall()
+        if not userlist:
+            return page_not_found(404)
+        na=userlist[0]['fullName']
+        print(type(na))
+        return jsonify(userlist),200
+    conn.commit()
+    conn.close()
+
+@app.route('/apositive', methods=['GET','POST'])
+def apos():
+    conn = db_connection()
+    conn.row_factory = dict_factory
+    cursor = conn.cursor()
+
+    if request.method == 'GET':
+        userlist = cursor.execute("SELECT * FROM user WHERE bloodGroup='A+' OR bloodGroup='A +ve';").fetchall()
+        if not userlist:
+            return page_not_found(404)
+        na=userlist[0]['fullName']
+        print(type(na))
+        return jsonify(userlist),200
+    conn.commit()
+    conn.close()
+
+@app.route('/notice', methods=['GET','POST'])
+def notice():
+	return f"you have reached /notice", 200
+

@@ -32,8 +32,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.Text, unique = True, nullable = False)
     phoneNumber = db.Column(db.Text, unique = True, nullable = False)
     address = db.Column(db.Text, nullable = False)
-    lat = db.Column(db.Text, nullable = True, default = 0.0)
-    lng = db.Column(db.Text, nullable = True, default = 0.0)
+    lat = db.Column(db.Numeric, nullable = True, default = 0.0)
+    lng = db.Column(db.Numeric, nullable = True, default = 0.0)
     bloodGroup = db.Column(db.Text, nullable = False)
     gender = db.Column(db.Text, nullable = False)
     age = db.Column(db.Text, nullable = False)
@@ -41,6 +41,8 @@ class User(db.Model, UserMixin):
     imageFile = db.Column(db.Text, nullable = True, default = 'default.jpg')
     password = db.Column(db.Text, nullable = False)
     dateRegistered = db.Column(db.DateTime, nullable = True, default = datetime.utcnow)
+
+    bloodRequest = db.relationship('BloodRequest', backref = 'bloodRequest', lazy = True)
 
     messageId = db.relationship('Message', backref = 'message_id', lazy = True)
 
@@ -100,3 +102,22 @@ class Ambulance(db.Model):
 
     def __repr__(self):
         return f"Ambulance('{self.name}', '{self.address}', '{self.contact}', '{self.dateRegistered}')"
+
+
+class BloodRequest(db.Model):
+    __tablename__ = 'bloodrequest'
+    id = db.Column(db.Integer, primary_key = True)
+    userId = db.Column(db.Integer, db.ForeignKey('user.userId'), nullable = False)
+    age = db.Column(db.Text, nullable = True)
+    gender = db.Column(db.Text, nullable = True)
+    bloodGroup = db.Column(db.Text, nullable = True)
+    location = db.Column(db.Text, nullable = True)
+    nearestLandmark = db.Column(db.Text, nullable = True)
+    latlng = db.Column(db.Text, nullable = True)
+    requestDate = db.Column(db.DateTime, nullable = True, default = datetime.utcnow().date())
+    status = db.Column(db.Text, nullable = True, default = 'ACTIVE')
+
+    forPatient = db.Column(db.Boolean, default = False)
+
+    def __repr__(self):
+        return f"BloodRequest('{self.userId}', '{self.age}', '{self.gender}', '{self.bloodGroup}', '{self.location}', '{self.nearestLandmark}', '{self.latlng}', '{self.requestDate}', '{self.forPatient}')"

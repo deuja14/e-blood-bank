@@ -11,6 +11,30 @@
 	<div class="col-lg-12">
 		<div class="block">
 			<div class="row">
+				{% for item in request %}
+				{% if current_user.userId != item['userId'] %}
+				<div class="col-lg-4 mb-3">
+					<div class="request-card">
+						<div class="request-card-content">
+							<div class="requested-bloodgroup">
+								<h5>{{item['bloodGroup']}}</h5>
+							</div>
+							<div class="requested-userinfo">
+								<h5>Age: <span>{{item['age']}}</span></h5>
+								<h5>Gender: <span>{{item['gender']}}</span></h5>
+								<h5>Contact: <span>{{item['phoneNumber']}}</span></h5>
+								<h5>Location: <span>{{item['location']}}</span></h5>
+								<h5>Nearest Landmark: <span>{{item['nearestLandmark']}}</span></h5>
+							</div>
+						</div>
+						<div class="request-card-btn-group">
+							<a href="/dashboard/track" class="btn btn-success"><i class='bx bx-donate-blood'></i></a>
+							<a href="#" class="btn btn-danger"><i class='bx bxs-x-circle'></i></a>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+				{% endfor %}
 			</div>	
 		</div>
 	</div>

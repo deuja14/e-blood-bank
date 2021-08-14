@@ -7,10 +7,6 @@
 	crossorigin=""/>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.4/dist/L.Control.Locate.min.css" />
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
-	<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
-	<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
-	<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 {% endblock %}
 {% block head %}
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
@@ -96,36 +92,29 @@
 	crossorigin=""></script>
 	<script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.74.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 	<script type="text/javascript">
-		L.Routing.control({
-		  waypoints: [
-		    L.latLng(27.670521215483202, 85.44178979691917),
-		    L.latLng(27.66, 85.43)
-		  ]
-		}).addTo(map);
-	</script>
-	<script type="text/javascript">
-		var lat = 27.670521215483202;
-		var long = 85.44178979691917;
-		var mymap = L.map('mapid').setView([lat, long], 13);
+		navigator.geolocation.getCurrentPosition(function(location) {
+			var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
+			var mymap = L.map('mapid').setView(latlng, 13);
 
-		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-			maxZoom: 18,
-			id: 'mapbox/streets-v11',
-			tileSize: 512,
-			zoomOffset: -1,
-			accessToken: 'pk.eyJ1IjoiYXJzZW5hbGRwZXMxNCIsImEiOiJja3J3ZDdzNm0wZmU3Mm9xajl0eTV6ZnUwIn0.08DbU31RyMTU1CpQk-CtlA'
-		}).addTo(mymap);
+			L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+				maxZoom: 18,
+				id: 'mapbox/streets-v11',
+				tileSize: 512,
+				zoomOffset: -1,
+				accessToken: 'pk.eyJ1IjoiYXJzZW5hbGRwZXMxNCIsImEiOiJja3J3ZDdzNm0wZmU3Mm9xajl0eTV6ZnUwIn0.08DbU31RyMTU1CpQk-CtlA'
+			}).addTo(mymap);
 
-		// var marker = L.marker([lat, long]).addTo(mymap);
-		// L.marker([27.66, 85.43]).addTo(mymap);
-		// var circle = L.circle([lat, long], {
-		// 	color: 'red',
-		// 	fillColor: '#f03',
-		// 	fillOpacity: 0.5,
-		// 	radius: 1000
-		// }).addTo(mymap);
+			var marker = L.marker(latlng).addTo(mymap);
+			L.marker([27.66, 85.43]).addTo(mymap);
+			var circle = L.circle(latlng, {
+				color: 'red',
+				fillColor: '#f03',
+				fillOpacity: 0.5,
+				radius: 1000
+			}).addTo(mymap);
 
-		// L.control.locate().addTo(mymap);
+			L.control.locate().addTo(mymap);
+		});
 	</script>
 	<script>
 		var xValues = ["A +ve", "A -ve", "B +ve", "B -ve", "AB +ve", "AB -ve", "O +ve", "O -ve"];

@@ -116,10 +116,10 @@ def markers():
     
 
     if request.method == 'GET':
-        userlist = cursor.execute("SELECT * FROM user WHERE userType='Donor' OR userType='Both';").fetchall()
+        userlist = cursor.execute("SELECT * FROM user WHERE bloodGroup='A+' OR bloodGroup='A +ve';").fetchall()
         if not userlist:
             return page_not_found(404)
-        na=userlist[0]['fullname']
+        na=userlist[0]['fullName']
         print(type(na))
         return jsonify(userlist),200
     conn.commit()

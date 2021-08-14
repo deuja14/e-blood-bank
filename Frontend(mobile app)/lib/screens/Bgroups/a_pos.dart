@@ -9,19 +9,22 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
 
-class Anegative extends StatefulWidget {
+class Apositive extends StatefulWidget {
 
   @override
-  State<Anegative> createState() => AnegativeState();
+  State<Apositive> createState() => ApositiveState();
 }
 
-class AnegativeState extends State<Anegative> {
+class ApositiveState extends State<Apositive> {
   bool mapToggle;
-  Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController _controller;
   Location location = Location();
   LatLng userPosition;
   LocationData currentPosition;
   var donors = [];
+  List<Items> list1=[];
+  // List<Items> target=[];
+  final TextEditingController msgController = new TextEditingController();
   final Set<Marker> _markers = new Set();
   
   // Set<Marker> markers = Dashboard.markers;
@@ -83,6 +86,17 @@ class AnegativeState extends State<Anegative> {
       'assets/A+.png');
    }
 
+  void setlist(response){
+    list1 =[
+      for(int i=0;i<response.length;i++)
+        Items(title: response[i]['fullName'],
+        contact: response[i]['phoneNumber'],
+        position: LatLng(response[i]['lat'],response[i]['lng']),
+        id: response[i]['userId'],
+        )
+    ]; 
+  }
+
   fetchdonors() async{
     var jsonResponse;
     jsonResponse = null;
@@ -91,7 +105,7 @@ class AnegativeState extends State<Anegative> {
 
       jsonResponse = json.decode(response.body);
       // print(jsonResponse[0]['Latitude']);
-      print(jsonResponse.length);
+      setlist(jsonResponse);
       print(mapToggle);
       for (int i=0;i<jsonResponse.length;i++){
         // to add icon
@@ -138,11 +152,10 @@ class AnegativeState extends State<Anegative> {
   //   zoom: 10.0,
   // );
 
-  void _onMapCreated(GoogleMapController controller)
-  {
-    _controller.  complete(controller); 
-    print("just checking in ");
-    
+  @override
+  void dispose(){
+    _controller.dispose();
+    super.dispose();
   }
   
   @override
@@ -171,7 +184,7 @@ class AnegativeState extends State<Anegative> {
                     target: LatLng(27.6,85.4),
                     zoom: 10,
                     ),
-                  onMapCreated: _onMapCreated,
+                  onMapCreated: (controller) => _controller=controller,
                   markers: _markers,
                 ):
                 // if maptoggle is not true
@@ -215,10 +228,7 @@ class AnegativeState extends State<Anegative> {
 
   showdialog(context){
     // List<Items> mylist = [item1, item2, item3];
-    List<Items> list1 =[
-      for(int i=0;i<11;i++)
-        Items(title: "$i",contact: "sanam$i")
-    ];    
+
     return showDialog(context: context, builder: (context){
       return Center(
         child: Material(
@@ -226,7 +236,7 @@ class AnegativeState extends State<Anegative> {
           child: Column(
             children: [
               SizedBox(height: 100,),
-              Text('A- Donors near you',textScaleFactor: 2,style: TextStyle(color: Colors.white),),
+              Text('A+ Donors near you',textScaleFactor: 2,style: TextStyle(color: Colors.white),),
               Container(
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
@@ -264,6 +274,25 @@ class AnegativeState extends State<Anegative> {
                     onTap: (){
                       print("button tapped");
                       print(data.contact);
+                      print(data.position);
+                      _controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: data.position,zoom: 11)));
+                      setState(() {
+                        _markers.add(Marker(
+                          markerId: MarkerId(data.title.toString()),
+                          position: data.position,
+                          infoWindow: InfoWindow(
+                            title: data.title,
+                            snippet: data.contact,
+                            onTap:(){
+                              sendRequest(data.title,data.contact,data.position,data.id);
+                              // target=[Items(position: data.position,title: data.title)];
+                              // messagebox(context);
+                            } 
+                          ),
+                          icon:
+                              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
+                        ));
+                      });
                       // Navigator.pushNamed(context, data.contact);
                     },
                   ),
@@ -278,10 +307,82 @@ class AnegativeState extends State<Anegative> {
     });
   }
 
+  sendRequest (name,number,position,id) async{
+    Map data = {
+      'name': name,
+      'number': number,
+      'id':id,
+    };
+    var response = await http.post(Uri.parse("http://10.0.2.2:5001/notice"), 
+    headers: {"Content-type":"application/json"},
+    body: jsonEncode(data));
+    if (response.statusCode==200){
+      print(response.body);
+    }
+
+  }
+
+
+  // messagebox(context){
+  //   return showDialog(context: context, builder: (context){
+  //     return Center(
+  //       child: Material(
+  //         type: MaterialType.transparency,
+  //         child: Column(
+  //           children: [
+  //             SizedBox(height: 100,),
+  //             Text('Type your message here',textScaleFactor: 2,style: TextStyle(color: Colors.white),),
+  //             Container(
+  //               alignment: Alignment.center,
+  //               decoration: BoxDecoration(
+  //                 shape: BoxShape.rectangle,
+  //                 borderRadius: BorderRadius.circular(20),
+  //                 color: Colors.red[100],
+  //                 ),
+  //               constraints: BoxConstraints.tightForFinite(height:300),
+  //               margin: EdgeInsets.all(10),
+  //               child: TextFormField(
+  //                       controller: msgController,
+  //                       // ignore: missing_return
+  //                       validator: (value) {
+  //                         if (value.trim().isEmpty){
+  //                           return 'Message required';
+  //                         }
+  //                       },
+  //                       decoration: InputDecoration(
+  //                         prefixIcon: Icon(Icons.email,color:Colors.red),
+  //                           labelText: 'Message',
+  //                           labelStyle: TextStyle(
+  //                               fontFamily: 'Montserrat',
+  //                               fontWeight: FontWeight.bold,
+  //                               color: Colors.grey),
+  //                           focusedBorder: UnderlineInputBorder(
+  //                               borderSide: BorderSide(color: Colors.red))),
+  //                     ),
+  //             ),
+              	
+  //             ElevatedButton(
+  //               child: Text('submit'),
+  //               style: ElevatedButton.styleFrom(
+  //                 primary: Colors.purple[200],
+  //               ),
+  //               onPressed: () {
+  //                 print('Pressed');
+  //               },
+  //             ),
+  //           ],
+  //         ), 
+  //       ),
+  //     );
+  //   });
+  // }
+
 }
 
 class Items {
   String title;
   String contact;
-  Items({this.title, this.contact,});
+  LatLng position;
+  int id;
+  Items({this.title, this.contact,this.position,this.id});
 }

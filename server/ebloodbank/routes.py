@@ -10,6 +10,7 @@ from ebloodbank.forms import RegistrationForm, LoginForm, NewsletterForm, Notice
 
 db.create_all()
 
+
 admin_created = User.query.filter_by(role = "ADMIN").first()
 if admin_created is None:
 	admin_password = bcrypt.generate_password_hash("1432117").decode('utf-8')
@@ -294,7 +295,6 @@ def markers():
     conn = db_connection()
     conn.row_factory = dict_factory
     cursor = conn.cursor()
-    
 
     if request.method == 'GET':
         userlist = cursor.execute("SELECT * FROM user WHERE userType='Donor' OR userType='Both';").fetchall()
@@ -305,13 +305,24 @@ def markers():
         return jsonify(userlist),200
     conn.commit()
     conn.close()
-	# if request.method == 'GET':
-	# 	user = User.query.filter(or_(User.userType == 'Both', User.userType == 'Donor'))
-	# 	if user:
-	# 		print('selece all query done')
-	# 		all=type(user)
-	# 		print(all)
-	# 	else:
-	# 		print('select query for marker failed')
-	# return f"login successfully executed",200
-	# # return jsonify(user),200
+
+@app.route('/apositive', methods=['GET','POST'])
+def apos():
+    conn = db_connection()
+    conn.row_factory = dict_factory
+    cursor = conn.cursor()
+
+    if request.method == 'GET':
+        userlist = cursor.execute("SELECT * FROM user WHERE bloodGroup='A+' OR bloodGroup='A +ve';").fetchall()
+        if not userlist:
+            return page_not_found(404)
+        na=userlist[0]['fullName']
+        print(type(na))
+        return jsonify(userlist),200
+    conn.commit()
+    conn.close()
+
+@app.route('/notice', methods=['GET','POST'])
+def notice():
+	return f"you have reached /notice", 200
+

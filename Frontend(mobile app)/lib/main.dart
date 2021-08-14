@@ -1,6 +1,7 @@
 // import 'package:Ebloodbank/screens/Bgroups/a_neg.dart';
-import 'package:flutter/material.dart';
 import 'package:Ebloodbank/screens/sliderpage.dart';
+import 'package:flutter/material.dart';
+// import 'package:Ebloodbank/screens/sliderpage.dart';
 import 'routes.dart';
 
 void main() {

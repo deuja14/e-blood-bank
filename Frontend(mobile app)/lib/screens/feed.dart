@@ -1200,6 +1200,240 @@ class _FeedState extends State<Feed> {
             )
           ),
 
+          SizedBox(height: 20,),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.red[100],
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            constraints: BoxConstraints.tightForFinite(),
+            child: Column(
+              children: [
+                SizedBox(height: 5),
+                Container(
+                  height: 40,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [Colors.redAccent,Colors.red[200],Colors.redAccent],)
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Request For Blood:",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+
+                Container(
+                  height: 30,
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(
+                    child: Text(
+                      "Kareena Bade",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(letterSpacing: 2),
+                      textScaleFactor: 1.3,
+                    ),
+                  ),
+                ),
+
+                Container(
+                  height: 150,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey[200]),
+                    shape: BoxShape.rectangle,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 140,
+                        width: MediaQuery.of(context).size.width-20.0,
+                        decoration: BoxDecoration(
+                          //border: Border.all(color: Colors.grey[500]),
+                          borderRadius: BorderRadius.circular(2),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey[500],
+                              blurRadius: 2.0,
+                            )
+                          ]
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(width: 5,),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey[200]),
+                                shape: BoxShape.rectangle,
+                              ),
+                              height: 130,
+                              width: 40,
+                              child: Center(
+                                child: Text(
+                                  'B+',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              height: 130,
+                              width: MediaQuery.of(context).size.width-65,
+                              child: Stack(
+                                fit: StackFit.loose,
+                                children: [
+                                  Positioned(  
+                                    top: 0,
+                                    left: 10,                     
+                                    child: Row(
+                                      children: [
+                                        Icon(FontAwesomeIcons.mapMarkerAlt, size: 20,),
+                                        SizedBox(width: 10,),
+                                        Text('Bhaktapur'),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Positioned(
+                                    top: 30,
+                                    left: 10,
+                                    child: Row(
+                                      children: [
+                                        Icon(FontAwesomeIcons.arrowCircleRight, size: 20,),
+                                        SizedBox(width: 10,),
+                                        Text('3 Bags'),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Positioned(
+                                    top: 60,
+                                    left: 10,
+                                    child: Row(
+                                      children: [
+                                        Icon(FontAwesomeIcons.arrowCircleRight, size: 20),
+                                        SizedBox(width: 10,),
+                                        Text('Bhaktapur Hospital'),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Positioned(
+                                    top: 90,
+                                    left: 10,
+                                    child: Row(
+                                      children: [
+                                        Icon(FontAwesomeIcons.phoneAlt,size: 20,),
+                                        SizedBox(width: 10,),
+                                        Text('9861957651'),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Positioned(
+                                    top: 15,
+                                    left: 250,
+                                    child: 
+                                      Icon(FontAwesomeIcons.edit),                             
+                                  ),
+
+                                  Positioned(
+                                    bottom: 15,
+                                    left: 250,
+                                    child: 
+                                      Icon(FontAwesomeIcons.phone),                             
+                                  ),                                                               
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),              
+                ),
+
+                Container(
+                  height: 70,
+                  width: MediaQuery.of(context).size.width,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 10,
+                        left: 5,
+                        child: RichText(
+                          text: TextSpan(
+                            text: 
+                              'Status Time:',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                ), 
+                            children: [
+                              TextSpan(
+                                text: '15/08/2021',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Positioned(
+                        top: 30,
+                        left: 5,
+                        child: RichText(
+                          text: TextSpan(
+                            text: 
+                              'Center:',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                ), 
+                            children: [
+                              TextSpan(
+                                text: ' near sidhha pokhari',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      Positioned(
+                        top: 50,
+                        left: 5,
+                        child: RichText(
+                          text: TextSpan(
+                            text: 
+                              'Reason: ',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                ), 
+                            children: [
+                              TextSpan(
+                                text: 'blood transfusion',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )
+          ),
 
         ]
       ),
